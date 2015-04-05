@@ -44,27 +44,47 @@ public class Controller {
 	@FXML
 	private void runCalculator(){
 		try{
-		if(!isAreaEmpty()){
+		if(!isAreaEmpty() && !resultArea.isDisable()){
 			area = Double.parseDouble(resultArea.getText());
-		}else{
+		}
+		else if(resultArea.isDisable()){
+			resultArea.clear();
+			area = 0;
+		}
+		else{
 			morethantwomissing++;
 			area = 0;
 		}
-		if(!isCapacityEmpty()){
+		if(!isCapacityEmpty() && !resultCapacity.isDisable()){
 			capacitance = Double.parseDouble(resultCapacity.getText());
-		}else{
+		}
+		else if(resultCapacity.isDisable()){
+			resultCapacity.clear();
+			capacitance = 0;
+		}
+		else{
 			morethantwomissing++;
 			capacitance = 0;
 		}
-		if(!isKEmpty()){
+		if(!isKEmpty() && !resultK.isDisable()){
 			k = Double.parseDouble(resultK.getText());
-		}else{
+		}
+		else if(resultK.isDisable()){
+			resultK.clear();
+			k = 0;
+		}
+		else{
 			morethantwomissing++;
 			k = 0;
 		}
-		if(!isDistanceEmpty()){
+		if(!isDistanceEmpty() && !resultDistance.isDisable()){
 			distance = Double.parseDouble(resultDistance.getText());
-		}else{
+		}
+		else if(resultDistance.isDisable()){
+			resultDistance.clear();
+			distance = 0;
+		}
+		else{
 			morethantwomissing++;
 			distance = 0;
 		}
@@ -127,31 +147,31 @@ public class Controller {
 	}
 	
 	private void getResult(){
-		if(getValue() == 0){
-			questions.setText("need more information"); 
+		if(getValue().equals("need more information")){
+			questions.setText(getValue()); 
 		}
-		else if(getValue() == 1){
-			questions.setText("You already put 4 values in there");
+		else if(getValue().equals("You already put 4 values in there")){
+			questions.setText(getValue());
 		}
 		else{
-			if(area == 0){
-				resultArea.setText(Double.toString(getValue()));
+			if(resultArea.isDisable()){
+				resultArea.setText(getValue());
 			}
-			if(capacitance == 0){
-				resultCapacity.setText(Double.toString(getValue()));
+			if(resultCapacity.isDisable()){
+				resultCapacity.setText(getValue());
 			}
-			if(k == 0){
-				resultK.setText(Double.toString(getValue()));
+			if(resultK.isDisable()){
+				resultK.setText(getValue());
 			}
-			if(distance == 0){
-				resultDistance.setText(Double.toString(getValue()));
+			if(resultDistance.isDisable()){
+				resultDistance.setText(getValue());
 			}
 			questions.setText("Enter Three Values");
 		}
 		morethantwomissing = 0;
 	}
 	
-	private double getValue(){
+	private String getValue(){
 		return c.calculate(morethantwomissing, area, capacitance, k, distance);
 	}
 	
