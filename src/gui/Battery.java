@@ -1,18 +1,29 @@
 package gui;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
+
 public class Battery extends Container {
 
 	private double voltage = 1;
+	private Slider slider = new Slider();
+	private VBox sliderBox;
 	
-	public Battery() {
+	public Battery(VBox sliderBox) {
 		addImage("/img/dc_voltage.png");
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
+		this.sliderBox = sliderBox;
 	}
 	
 	@Override
-	public void showSlider() {
-		slider.setVisible(true);
+	public void showSliders() {
+		sliderBox.getChildren().clear();
+		sliderBox.getChildren().add(0, slider);
+		Label voltageLabel = new Label();
+		voltageLabel.setText("Voltage");
+		sliderBox.getChildren().add(1, voltageLabel);
 	}
 	
 	public void changeVoltage(double value) {
