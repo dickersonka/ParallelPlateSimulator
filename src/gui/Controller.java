@@ -26,8 +26,8 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
-		setTile(1,1,new Battery());
-		setTile(1,3,new Capacitor());
+		setTile(1,1,new Battery(sliderBox));
+		setTile(1,3,new Capacitor(sliderBox));
 	}
 	
 	private Container getTile(int row, int col) {
