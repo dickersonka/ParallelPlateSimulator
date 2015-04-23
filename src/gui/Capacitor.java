@@ -1,19 +1,40 @@
 package gui;
 
+import javafx.geometry.Orientation;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.VBox;
+
 public class Capacitor extends Container {
 	
 	private double capacity = 1;
+	private VBox sliderBox;
+	private Slider areaSlider = new Slider();
+	private Slider separationSlider = new Slider();
 
-	public Capacitor() {
+	public Capacitor(VBox sliderBox) {
 		addImage("/img/capacitor.png");
-		slider.setMin(0);
-		slider.setMax(100);
-		// TODO Auto-generated constructor stub
+		areaSlider.setMin(1);
+		areaSlider.setMax(100);
+		areaSlider.setOrientation(Orientation.HORIZONTAL);
+		separationSlider.setMin(0.1);
+		separationSlider.setMax(10);
+		separationSlider.setOrientation(Orientation.VERTICAL);
+		this.sliderBox = sliderBox;
 	}
 	
 	@Override
-	public void showSlider() {
-		slider.setVisible(true);
+	public void showSliders() {
+		sliderBox.getChildren().clear();
+		sliderBox.getChildren().add(0, areaSlider);
+		Label areaLabel = new Label();
+		areaLabel.setText("Plate Area");
+		sliderBox.getChildren().add(1, areaLabel);
+		sliderBox.getChildren().add(2, separationSlider);
+		Label distanceLabel = new Label();
+		distanceLabel.setText("Plate Separation Distance");
+		sliderBox.getChildren().add(3, distanceLabel);
+		//TODO: if these go in the boxes like I expect, they will need to be offset. somehow.
 	}
 
 	public void changeCapacity(double value) {
