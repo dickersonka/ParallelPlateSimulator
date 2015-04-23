@@ -5,7 +5,7 @@ public class Capacitor extends Container {
 	private double capacity = 1;
 
 	public Capacitor() {
-		//TODO: addImage("picofcapacitor");
+		addImage("/img/capacitor.png");
 		slider.setMin(0);
 		slider.setMax(100);
 		// TODO Auto-generated constructor stub
@@ -14,11 +14,6 @@ public class Capacitor extends Container {
 	@Override
 	public void showSlider() {
 		slider.setVisible(true);
-	}
-	
-	@Override
-	public void hideSlider() {
-		slider.setVisible(false);
 	}
 
 	public void changeCapacity(double value) {

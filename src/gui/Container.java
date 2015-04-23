@@ -10,8 +10,8 @@ import javafx.scene.layout.Pane;
 
 public class Container {
 	
-	protected Pane pane;
-	protected Slider slider;
+	protected Pane pane = new Pane();
+	protected Slider slider = new Slider();
 	
 	public Container() {
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -40,6 +40,7 @@ public class Container {
 	}
 	
 	public void hideSlider() {
+		slider.setVisible(false);
 	//TODO: so when the grid sees that this pane is no longer selected, it should call this method
 	}
 	
@@ -49,6 +50,10 @@ public class Container {
 	
 	public void changeValue(double value) {
 		
+	}
+	
+	public Pane getPane() {
+		return pane;
 	}
 
 }
