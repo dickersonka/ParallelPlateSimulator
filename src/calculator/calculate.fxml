@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,19 +10,18 @@
    <center>
       <AnchorPane prefHeight="500.0" prefWidth="450.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="Area" layoutX="48.0" layoutY="81.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Area" />
-            <Button fx:id="Distance" layoutX="48.0" layoutY="169.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Distance" />
-            <Button fx:id="K" layoutX="48.0" layoutY="266.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="K" />
-            <Button fx:id="Capacity" layoutX="48.0" layoutY="368.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Capacitance" />
-            <TextField fx:id="resultArea" layoutX="178.0" layoutY="86.0" />
-            <TextField fx:id="resultDistance" layoutX="178.0" layoutY="174.0" />
-            <TextField fx:id="resultK" layoutX="178.0" layoutY="271.0" />
-            <TextField fx:id="resultCapacity" layoutX="178.0" layoutY="373.0" />
-            <Button fx:id="equal" layoutX="48.0" layoutY="460.0" mnemonicParsing="false" onAction="#runCalculator" prefHeight="40.0" prefWidth="100.0" text="=" />
-            <TextField fx:id="questions" layoutX="178.0" layoutY="465.0" promptText="enter at least 3 values" />
+            <Button fx:id="Area" layoutX="48.0" layoutY="81.0" mnemonicParsing="false" onAction="#areaBtn" prefHeight="40.0" prefWidth="100.0" text="Area" />
+            <Button fx:id="Distance" layoutX="48.0" layoutY="169.0" mnemonicParsing="false" onAction="#distanceBtn" prefHeight="40.0" prefWidth="100.0" text="Distance" />
+            <Button fx:id="K" layoutX="48.0" layoutY="266.0" mnemonicParsing="false" onAction="#KBtn" prefHeight="40.0" prefWidth="100.0" text="K" />
+            <Button fx:id="Capacity" layoutX="48.0" layoutY="368.0" mnemonicParsing="false" onAction="#capacityBtn" prefHeight="40.0" prefWidth="100.0" text="Capacitance" />
+            <TextField fx:id="resultArea" layoutX="178.0" layoutY="86.0" onAction="#runCalculator" />
+            <TextField fx:id="resultDistance" layoutX="178.0" layoutY="174.0" onAction="#runCalculator" />
+            <TextField fx:id="resultK" layoutX="178.0" layoutY="271.0" onAction="#runCalculator" />
+            <TextField fx:id="resultCapacity" layoutX="178.0" layoutY="373.0" onAction="#runCalculator" />
             <Label layoutX="378.0" layoutY="91.0" text="m²" />
             <Label layoutX="378.0" layoutY="179.0" text="m" />
             <Label layoutX="381.0" layoutY="378.0" text="F" />
+            <Label fx:id="questions" layoutX="176.0" layoutY="452.0" text="Enter Three Values" />
          </children>
       </AnchorPane>
    </center>

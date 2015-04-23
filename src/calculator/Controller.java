@@ -2,7 +2,9 @@ package calculator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 public class Controller {
 	@FXML
@@ -14,8 +16,6 @@ public class Controller {
 	@FXML
 	Button Distance;
 	@FXML
-	Button equal;
-	@FXML
 	TextField resultArea;
 	@FXML
 	TextField resultK;
@@ -24,7 +24,7 @@ public class Controller {
 	@FXML
 	TextField resultDistance;
 	@FXML
-	TextField questions;
+	Label questions;
 	
 	
 	private double e0 = 8.854;
@@ -43,6 +43,7 @@ public class Controller {
 	
 	@FXML
 	private void runCalculator(){
+		try{
 		if(!isAreaEmpty()){
 			area = Double.parseDouble(resultArea.getText());
 		}else{
@@ -68,6 +69,61 @@ public class Controller {
 			distance = 0;
 		}
 		getResult();
+		} catch(NumberFormatException NFE){
+			questions.setText("Enter a valid value"); 
+		}
+	}
+	
+	@FXML
+	private void areaBtn(){
+		resultArea.setDisable(true);
+		resultK.setDisable(false);
+		resultCapacity.setDisable(false);
+		resultDistance.setDisable(false);
+		
+		Area.setTextFill(Color.BLUE);
+		K.setTextFill(Color.BLACK);
+		Capacity.setTextFill(Color.BLACK);
+		Distance.setTextFill(Color.BLACK);
+	}
+	
+	@FXML
+	private void KBtn(){
+		resultArea.setDisable(false);
+		resultK.setDisable(true);
+		resultCapacity.setDisable(false);
+		resultDistance.setDisable(false);
+		
+		Area.setTextFill(Color.BLACK);
+		K.setTextFill(Color.BLUE);
+		Capacity.setTextFill(Color.BLACK);
+		Distance.setTextFill(Color.BLACK);
+	}
+	
+	@FXML
+	private void capacityBtn(){
+		resultArea.setDisable(false);
+		resultK.setDisable(false);
+		resultCapacity.setDisable(true);
+		resultDistance.setDisable(false);
+		
+		Area.setTextFill(Color.BLACK);
+		K.setTextFill(Color.BLACK);
+		Capacity.setTextFill(Color.BLUE);
+		Distance.setTextFill(Color.BLACK);
+	}
+	
+	@FXML
+	private void distanceBtn(){
+		resultArea.setDisable(false);
+		resultK.setDisable(false);
+		resultCapacity.setDisable(false);
+		resultDistance.setDisable(true);
+		
+		Area.setTextFill(Color.BLACK);
+		K.setTextFill(Color.BLACK);
+		Capacity.setTextFill(Color.BLACK);
+		Distance.setTextFill(Color.BLUE);
 	}
 	
 	private void getResult(){
@@ -90,7 +146,7 @@ public class Controller {
 			if(distance == 0){
 				resultDistance.setText(Double.toString(getValue()));
 			}
-			questions.clear();
+			questions.setText("Enter Three Values");
 		}
 		morethantwomissing = 0;
 	}
