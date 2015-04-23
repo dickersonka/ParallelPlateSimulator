@@ -10,22 +10,27 @@
   <tabs>
     <Tab text="Simulator">
       <content>
-        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0" prefWidth="640.0">
+        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="530.0">
                <children>
-                  <VBox prefHeight="530.0" prefWidth="640.0">
+                  <HBox prefWidth="740.0">
                      <children>
-                        <TilePane fx:id="circuitGrid" prefHeight="480.0" prefWidth="640.0" />
-                        <HBox fx:id="circuitComponentDock" prefHeight="50.0">
+                        <VBox prefHeight="530.0" prefWidth="640.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="50.0" prefWidth="600.0" text="Components cannot be dynamically added at this time." textFill="#727272">
-                                 <font>
-                                    <Font name="Lucida Sans Regular" size="15.0" />
-                                 </font>
-                              </Label>
+                              <TilePane fx:id="circuitGrid" prefHeight="480.0" prefWidth="640.0" />
+                              <HBox fx:id="circuitComponentDock" prefHeight="50.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="50.0" prefWidth="600.0" text="Components cannot be dynamically added at this time." textFill="#727272">
+                                       <font>
+                                          <Font name="Lucida Sans Regular" size="15.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox fx:id="sliderBox" prefWidth="100.0" />
                      </children>
-                  </VBox>
+                  </HBox>
                </children></AnchorPane>
       </content>
     </Tab>

@@ -15,7 +15,6 @@ public class Container {
 	
 	public Container() {
 		pane.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
 			public void handle(MouseEvent arg0) {
 				showSlider();
 			}
@@ -24,7 +23,6 @@ public class Container {
 		slider.setVisible(false);
 		
 		slider.setOnDragDetected(new EventHandler<MouseEvent>() {
-			@Override
 			public void handle(MouseEvent arg0) {
 				changeValue(slider.getValue());
 			}
