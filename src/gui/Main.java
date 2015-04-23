@@ -13,7 +13,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("Simulator.fxml"));
 			TabPane root = (TabPane) loader.load();
-			Scene scene = new Scene(root,640,500);
+			Scene scene = new Scene(root,640,563);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
