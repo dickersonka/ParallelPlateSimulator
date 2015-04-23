@@ -1,7 +1,7 @@
 package calculator;
 
 public class Calculation {
-	Calculation(){
+	Calculation() {
 		
 	}
 	

@@ -5,20 +5,14 @@ public class Battery extends Container {
 	private double voltage = 1;
 	
 	public Battery() {
-		//TODO: addImage("picofbattery");
+		addImage("/img/dc_voltage.png");
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void showSlider() {
 		slider.setVisible(true);
-	}
-	
-	@Override
-	public void hideSlider() {
-		slider.setVisible(false);
 	}
 	
 	public void changeVoltage(double value) {

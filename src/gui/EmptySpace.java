@@ -3,7 +3,7 @@ package gui;
 public class EmptySpace extends Container {
 
 	public EmptySpace() {
-		// TODO Auto-generated constructor stub
+		addImage("img.empty_tile.png");
 	}
 
 }
