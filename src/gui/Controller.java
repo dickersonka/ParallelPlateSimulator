@@ -26,8 +26,16 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
-		setTile(1,1,new Battery(sliderBox));
-		setTile(1,3,new Capacitor(sliderBox));
+		setTile(2,1,new Battery(sliderBox));
+		setTile(2,3,new Capacitor(sliderBox));
+		
+		setTile(1,1, new Wire());
+		getTile(1,1).setImage(Wire.CORNER_WIRE);
+		setTile(1,2, new Wire());
+		getTile(1,2).turnImageClockwise();
+		setTile(1,3, new Wire());
+		getTile(1,3).setImage(Wire.CORNER_WIRE);
+		getTile(1,3).turnImageClockwise();
 	}
 	
 	private Container getTile(int row, int col) {

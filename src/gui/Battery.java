@@ -11,10 +11,12 @@ public class Battery extends Container {
 	private VBox sliderBox;
 	
 	public Battery(VBox sliderBox) {
-		addImage("/img/dc_voltage.png");
+		super(sliderBox);
+		
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
-		this.sliderBox = sliderBox;
+		
+		addImage("/img/dc_voltage.png");
 	}
 	
 	@Override

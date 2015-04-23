@@ -6,4 +6,6 @@ public class EmptySpace extends Container {
 		addImage("/img/empty_tile.png");
 	}
 
+	@Override
+	public void showSliders() {}
 }

@@ -1,36 +1,55 @@
 package gui;
 
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
-public class Container extends Pane {
+public abstract class Container extends Pane {
+	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 32;
+	protected VBox sliderBox;
 	
 	public Container() {
+		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
+	}
+	
+	public Container(VBox sliderBox) {
+		this();
+		
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
 				showSliders();
 			}
 		});
-		this.setPrefSize(32, 32); //TODO: is this the right size for a 32x32 pic? same measurements?
+		this.sliderBox = sliderBox;
 	}
 	
-	public void addImage(String imageName) {
-		ImageView iv1 = new ImageView(new Image(imageName));
-		this.getChildren().add(iv1);
+	protected void addImage(String imageName) {
+		ImageView img = new ImageView(new Image(imageName));
+		this.getChildren().add(img);
 	}
 	
-	public void showSliders() {
+	public void setImage(String imageName) {
+		this.getChildren().set(0, new ImageView(new Image(imageName)));
 	}
 	
-	public void turnImage() {
-		this.getChildren().get(0).setRotate(90.0);
+	public void turnImageClockwise() {
+		getImage().setRotate(getImage().getRotate() - 90.0);
 	}
 	
-	public void changeValue(double value) {
-		
+	public void turnImageAntiClockwise() {
+		getImage().setRotate(getImage().getRotate() + 90.0);
 	}
+	
+	protected Node getImage() {
+		return this.getChildren().get(0);
+	}
+	
+	public abstract void showSliders();
+	
+	//public abstract void changeValue(double value);
 
 }

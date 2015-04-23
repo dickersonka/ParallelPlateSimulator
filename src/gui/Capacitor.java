@@ -8,19 +8,20 @@ import javafx.scene.layout.VBox;
 public class Capacitor extends Container {
 	
 	private double capacity = 1;
-	private VBox sliderBox;
 	private Slider areaSlider = new Slider();
 	private Slider separationSlider = new Slider();
 
 	public Capacitor(VBox sliderBox) {
-		addImage("/img/capacitor.png");
+		super(sliderBox);
+		
 		areaSlider.setMin(1);
 		areaSlider.setMax(100);
 		areaSlider.setOrientation(Orientation.HORIZONTAL);
 		separationSlider.setMin(0.1);
 		separationSlider.setMax(10);
 		separationSlider.setOrientation(Orientation.VERTICAL);
-		this.sliderBox = sliderBox;
+
+		addImage("/img/capacitor.png");
 	}
 	
 	@Override
