@@ -13,10 +13,10 @@ public class Controller {
 	@FXML
 	VBox sliderBox;
 	
-	public final int NUM_TILE_ROWS = 15;
-	public final int NUM_TILE_COLS = 20;
 	
 	private Capacitor capacitor;
+	public final int NUM_TILE_ROWS = 7;
+	public final int NUM_TILE_COLS = 10;
 
 	@FXML
 	public void initialize() {
