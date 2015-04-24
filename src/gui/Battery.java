@@ -16,7 +16,7 @@ public class Battery extends Container {
 		slider.setValue(0);
 		slider.setShowTickLabels(true);
 		
-		setImage("/img/dc_voltage.png");
+		setImage("/img/battery.png");
 	}
 	
 	@Override
