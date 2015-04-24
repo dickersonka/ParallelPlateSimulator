@@ -26,8 +26,8 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
-		setTile(2,1,new Battery(sliderBox));
-		setTile(2,3,new Capacitor(sliderBox));
+		setTile(2,1,new Battery(this));
+		setTile(2,3,new Capacitor(this));
 		
 		setTile(1,1, new Wire());
 		getTile(1,1).setImage(Wire.CORNER_WIRE);
@@ -36,6 +36,17 @@ public class Controller {
 		setTile(1,3, new Wire());
 		getTile(1,3).setImage(Wire.CORNER_WIRE);
 		getTile(1,3).turnImageClockwise();
+		
+		setTile(3,1, new Wire());
+		getTile(3,1).setImage(Wire.CORNER_WIRE);
+		getTile(3,1).turnImageAntiClockwise();
+		setTile(3,2, new Wire());
+		getTile(3,2).turnImageClockwise();
+		setTile(3,3, new Wire());
+		getTile(3,3).setImage(Wire.CORNER_WIRE);
+		getTile(3,3).turnImageClockwise();
+		getTile(3,3).turnImageClockwise();
+		
 	}
 	
 	private Container getTile(int row, int col) {
@@ -52,5 +63,9 @@ public class Controller {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	public VBox getSliderBox() {
+		return sliderBox;
 	}
 }
