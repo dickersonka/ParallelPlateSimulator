@@ -2,19 +2,19 @@ package gui;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
 
 public class Battery extends Container {
 
 	private double voltage = 1;
 	private Slider slider = new Slider();
-	private VBox sliderBox;
 	
 	public Battery(Controller controller) {
 		super(controller);
 		
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
+		slider.setValue(0);
+		slider.setShowTickLabels(true);
 		
 		setImage("/img/dc_voltage.png");
 	}

@@ -15,9 +15,12 @@ public class Controller {
 	
 	public final int NUM_TILE_ROWS = 15;
 	public final int NUM_TILE_COLS = 20;
+	
+	private Capacitor capacitor;
 
 	@FXML
 	public void initialize() {
+		sliderBox.setSpacing(20);
 		for(int i=0; i<NUM_TILE_COLS * NUM_TILE_ROWS; i++) {
 			circuitGrid.getChildren().add(new EmptySpace());
 		}
@@ -26,8 +29,9 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
+		capacitor = new Capacitor(this);
 		setTile(2,1,new Battery(this));
-		setTile(2,3,new Capacitor(this));
+		setTile(2,3, capacitor);
 		
 		setTile(1,1, new Wire());
 		getTile(1,1).setImage(Wire.CORNER_WIRE);
@@ -67,5 +71,9 @@ public class Controller {
 	
 	public VBox getSliderBox() {
 		return sliderBox;
+	}
+	
+	public Capacitor getCapacitor() {
+		return capacitor;
 	}
 }

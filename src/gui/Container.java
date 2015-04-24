@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public abstract class Container extends Pane {
-	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 32;
+	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
 	protected Controller controller;
 	protected VBox sliderBox;
 	protected ImageView img = new ImageView();
@@ -17,6 +17,7 @@ public abstract class Container extends Pane {
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
+		//TODO: for capacitor, set the incremental stuff to fix the labels
 	}
 	
 	public Container(Controller controller) {
