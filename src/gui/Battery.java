@@ -10,8 +10,8 @@ public class Battery extends Container {
 	private Slider slider = new Slider();
 	private VBox sliderBox;
 	
-	public Battery(VBox sliderBox) {
-		super(sliderBox);
+	public Battery(Controller controller) {
+		super(controller);
 		
 		slider.setMin(-1.5);
 		slider.setMax(1.5);

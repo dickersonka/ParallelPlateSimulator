@@ -3,7 +3,6 @@ package gui;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
 
 public class Capacitor extends Container {
 	
@@ -11,8 +10,8 @@ public class Capacitor extends Container {
 	private Slider areaSlider = new Slider();
 	private Slider separationSlider = new Slider();
 
-	public Capacitor(VBox sliderBox) {
-		super(sliderBox);
+	public Capacitor(Controller controller) {
+		super(controller);
 		
 		areaSlider.setMin(1);
 		areaSlider.setMax(100);

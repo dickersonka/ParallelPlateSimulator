@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 
 public abstract class Container extends Pane {
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 32;
+	protected Controller controller;
 	protected VBox sliderBox;
 	protected ImageView img = new ImageView();
 	
@@ -18,7 +19,7 @@ public abstract class Container extends Pane {
 		this.getChildren().add(img);
 	}
 	
-	public Container(VBox sliderBox) {
+	public Container(Controller controller) {
 		this();
 		
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -26,7 +27,8 @@ public abstract class Container extends Pane {
 				showSliders();
 			}
 		});
-		this.sliderBox = sliderBox;
+		this.controller = controller;
+		this.sliderBox = controller.getSliderBox();
 	}
 	
 	public void setImage(String imageName) {
