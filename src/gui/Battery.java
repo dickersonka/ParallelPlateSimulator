@@ -1,11 +1,12 @@
 package gui;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 
 public class Battery extends Container {
 
-	private double voltage = 1;
 	private Slider slider = new Slider();
 	
 	public Battery(Controller controller) {
@@ -15,6 +16,12 @@ public class Battery extends Container {
 		slider.setMax(1.5);
 		slider.setValue(0);
 		slider.setShowTickLabels(true);
+		
+		slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent arg0) {
+				controller.getCapacitor().changeFieldLines(slider.getValue());
+			}
+		});
 		
 		setImage("/img/battery.png");
 	}
@@ -26,15 +33,6 @@ public class Battery extends Container {
 		Label voltageLabel = new Label();
 		voltageLabel.setText("Voltage");
 		sliderBox.getChildren().add(1, voltageLabel);
-	}
-	
-	public void changeVoltage(double value) {
-		voltage = value;
-		//TODO: should probably update the gui after this is called
-	}
-	
-	public double getVoltage() {
-		return voltage;
 	}
 
 }
