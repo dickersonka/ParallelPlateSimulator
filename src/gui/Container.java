@@ -11,9 +11,11 @@ import javafx.scene.layout.VBox;
 public abstract class Container extends Pane {
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 32;
 	protected VBox sliderBox;
+	protected ImageView img = new ImageView();
 	
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
+		this.getChildren().add(img);
 	}
 	
 	public Container(VBox sliderBox) {
@@ -27,21 +29,16 @@ public abstract class Container extends Pane {
 		this.sliderBox = sliderBox;
 	}
 	
-	protected void addImage(String imageName) {
-		ImageView img = new ImageView(new Image(imageName));
-		this.getChildren().add(img);
-	}
-	
 	public void setImage(String imageName) {
-		this.getChildren().set(0, new ImageView(new Image(imageName)));
+		img.setImage(new Image(imageName));
 	}
 	
 	public void turnImageClockwise() {
-		getImage().setRotate(getImage().getRotate() - 90.0);
+		getImage().setRotate(getImage().getRotate() + 90.0);
 	}
 	
 	public void turnImageAntiClockwise() {
-		getImage().setRotate(getImage().getRotate() + 90.0);
+		getImage().setRotate(getImage().getRotate() - 90.0);
 	}
 	
 	protected Node getImage() {

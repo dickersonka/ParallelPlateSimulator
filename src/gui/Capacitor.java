@@ -21,7 +21,7 @@ public class Capacitor extends Container {
 		separationSlider.setMax(10);
 		separationSlider.setOrientation(Orientation.VERTICAL);
 
-		addImage("/img/capacitor.png");
+		setImage("/img/capacitor.png");
 	}
 	
 	@Override

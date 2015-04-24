@@ -16,7 +16,7 @@ public class Battery extends Container {
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
 		
-		addImage("/img/dc_voltage.png");
+		setImage("/img/dc_voltage.png");
 	}
 	
 	@Override
