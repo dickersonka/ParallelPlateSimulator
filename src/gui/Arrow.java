@@ -17,10 +17,10 @@ public class Arrow extends Line {
 		//TODO: the following presumes the arrows only go up and down
 
 		if (yEnd > yStart) {
-			triangle = new Polygon (xEnd, yEnd, xEnd+2, yEnd-2, xEnd-2, yEnd-2);
+			triangle = new Polygon (xEnd, yEnd, xEnd+2, yEnd-4, xEnd-2, yEnd-4);
 		}
 		else {
-			triangle = new Polygon (xEnd, yEnd, xEnd+2, yEnd+2, xEnd-2, yEnd+2);
+			triangle = new Polygon (xEnd, yEnd, xEnd+2, yEnd+4, xEnd-2, yEnd+4);
 		}
 		
 		g.getChildren().add(this);

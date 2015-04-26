@@ -21,7 +21,7 @@ public class Capacitor extends Container {
 	private double voltage = 0;
 	private ArrayList<Group> fieldLines = new ArrayList<Group>();
 	public final int areaRatio = 6;
-	public final int distanceRatio = 6;
+	public final int distanceRatio = 600;
 
 	public Capacitor(Controller controller) {
 		super(controller);
@@ -39,9 +39,9 @@ public class Capacitor extends Container {
 		areaSlider.setShowTickLabels(true);
 		areaSlider.setOrientation(Orientation.HORIZONTAL);
 		
-		separationSlider.setMin(0.1);
-		separationSlider.setMax(10);
-		separationSlider.setValue(5);
+		separationSlider.setMin(0.01);
+		separationSlider.setMax(0.1);
+		separationSlider.setValue(0.05);
 		separationSlider.setShowTickLabels(true);
 		
 		areaSlider.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -95,18 +95,14 @@ public class Capacitor extends Container {
 		//TODO: electric field line density increases as distance decreases
 				//electric field line density stays the same as area changes
 				//electric field line density increases as voltage increases, flips as voltage is switched;
-		//what is the range of delta v/d? 0 to 1.5/0.1 = 15;
 		//so let's say we have a max density of 15 lines per 30 pixels of area?
-		double range = Math.sqrt(areaSlider.getValue())/30*voltage/separationSlider.getValue();
-		//TODO: these values need to be adjusted. right now it's not showing anything unless it's too small to see!
-		int cr = (int) range;
-		System.out.println(String.valueOf(range));
-		
-		for (int i = 0; i < (int) range; i++) {
-			//TODO: then change the x values so that it's evenly distributed;
-			fieldLines.add(new Arrow(i*5, yStart, i*5, yEnd).getArrow());
+		double lines = Math.abs(Math.sqrt(areaSlider.getValue())/30*voltage/separationSlider.getValue());	
+		double spacing = areaRatio*Math.sqrt(areaSlider.getValue())/((int) lines);
+		double xStart = topPlate.getStartX() + spacing/2;
+		for (int i = 0; i < (int) lines; i++) {
+			fieldLines.add(new Arrow(xStart, yStart, xStart, yEnd).getArrow());
+			xStart += spacing;
 		}
-		//fieldLines.add(new Arrow(5, yStart, 5, yEnd).getArrow());
 		this.getChildren().addAll(fieldLines);
 	}
 	
@@ -115,7 +111,7 @@ public class Capacitor extends Container {
 		this.getChildren().add(bottomPlate);
 		this.getChildren().add(topWire);
 		this.getChildren().add(bottomWire);
-		changeCapacitor(50, 5);
+		changeCapacitor(50, 0.05);
 	
 	}
 	
