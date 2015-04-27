@@ -19,7 +19,7 @@ public class Battery extends Container {
 		
 		slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				controller.getCapacitor().changeFieldLines(slider.getValue());
+				this.controller.getCapacitor().changeFieldLines(slider.getValue());
 			}
 		});
 		
