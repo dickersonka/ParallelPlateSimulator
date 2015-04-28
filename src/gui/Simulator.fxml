@@ -13,12 +13,13 @@
       <content>
         <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                <children>
-                  <HBox prefWidth="740.0">
+                  <HBox>
                      <children>
-                        <VBox prefHeight="498.0" prefWidth="640.0">
+                        <VBox>
                            <children>
                               <TilePane fx:id="circuitGrid" prefHeight="448.0" prefWidth="640.0" />
-                              <HBox fx:id="circuitComponentDock" prefHeight="50.0">
+                              <Separator />
+                              <HBox fx:id="circuitComponentDock" prefHeight="64.0">
                                  <children>
                                     <Label alignment="CENTER" prefHeight="50.0" prefWidth="600.0" text="Components cannot be dynamically added at this time." textFill="#727272">
                                        <font>
@@ -29,7 +30,8 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <VBox fx:id="sliderBox" prefWidth="100.0" />
+                        <Separator orientation="VERTICAL" />
+                        <VBox fx:id="sliderBox" prefWidth="150.0" />
                      </children>
                   </HBox>
                </children></AnchorPane>

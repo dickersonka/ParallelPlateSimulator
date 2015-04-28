@@ -4,7 +4,6 @@ import calculator.Calculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -12,15 +11,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Controller {
+	//===================================================\\
+	//					Simulator Tab					 \\
+	//===================================================\\
+	
 	@FXML
 	TilePane circuitGrid;
 	@FXML
 	HBox circuitComponentDock;
 	@FXML
 	VBox sliderBox;
-	@FXML
-	Tab calculator;
-	
 	
 	private Capacitor capacitor;
 	public final int NUM_TILE_ROWS = 7;
@@ -86,8 +86,9 @@ public class Controller {
 		return capacitor;
 	}
 	
-	//===================================================
-	//===================================================
+	//===================================================\\
+	//					Calculator Tab					 \\
+	//===================================================\\
 	
 	@FXML
 	Button Area;
