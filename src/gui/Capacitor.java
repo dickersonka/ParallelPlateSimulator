@@ -2,11 +2,9 @@ package gui;
 
 import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
@@ -119,15 +117,17 @@ public class Capacitor extends Container {
 	
 	@Override
 	public void showSlidersAndRotations() {
-		sliderBox.getChildren().clear();
-		sliderBox.getChildren().add(0, areaSlider);
+		super.showSlidersAndRotations();
+		sliderBox.getChildren().get(0).setDisable(true);
+		
+		sliderBox.getChildren().add(areaSlider);
 		Label areaLabel = new Label();
 		areaLabel.setText("Plate Area");
-		sliderBox.getChildren().add(1, areaLabel);
-		sliderBox.getChildren().add(2, separationSlider);
+		sliderBox.getChildren().add(areaLabel);
+		sliderBox.getChildren().add(separationSlider);
 		Label distanceLabel = new Label();
 		distanceLabel.setText("Plate Separation Distance");
-		sliderBox.getChildren().add(3, distanceLabel);
+		sliderBox.getChildren().add(distanceLabel);
 		//TODO: if these go in the boxes like I expect, they will need to be offset. somehow.
 	}
 

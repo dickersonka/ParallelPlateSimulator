@@ -28,11 +28,12 @@ public class Battery extends Container {
 	
 	@Override
 	public void showSlidersAndRotations() {
-		sliderBox.getChildren().clear();
-		sliderBox.getChildren().add(0, slider);
+		super.showSlidersAndRotations();
+		
+		sliderBox.getChildren().add(slider);
 		Label voltageLabel = new Label();
 		voltageLabel.setText("Voltage");
-		sliderBox.getChildren().add(1, voltageLabel);
+		sliderBox.getChildren().add(voltageLabel);
 	}
 
 }
