@@ -19,6 +19,9 @@ public abstract class Container extends Pane {
 	protected HBox rotationButtonBox;
 	protected ImageView img = new ImageView();
 	
+	protected Direction outputDir, inputDir;
+	protected Container outputRecipient;
+	
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
@@ -32,6 +35,10 @@ public abstract class Container extends Pane {
 		sliderBox = controller.getSliderBox();
 		rotationButtonBox = makeRotationButtons();
 		setupOnMousePressed();
+		
+		outputDir = Direction.NORTH;
+		inputDir = Direction.SOUTH;
+		checkConnections();
 	}
 	
 	public void setupOnMousePressed() {
@@ -48,10 +55,22 @@ public abstract class Container extends Pane {
 	
 	public void turnImageClockwise() {
 		getImage().setRotate(getImage().getRotate() + 90.0);
+		
+		outputDir = outputDir.getClockwiseDir();
+		inputDir = inputDir.getClockwiseDir();
+		checkConnections();
 	}
 	
 	public void turnImageAntiClockwise() {
 		getImage().setRotate(getImage().getRotate() - 90.0);
+		
+		outputDir = outputDir.getAntiClockwiseDir();
+		inputDir = inputDir.getAntiClockwiseDir();
+		checkConnections();
+	}
+	
+	protected void checkConnections() {
+		//TODO: Look at the tiles in the input and output directions to see if everything is oriented correctly.
 	}
 	
 	protected Node getImage() {
@@ -88,4 +107,50 @@ public abstract class Container extends Pane {
 		return rotationButtons;
 	}
 
+	public enum Direction {
+		NORTH {
+			@Override
+			public Direction getClockwiseDir() {
+				return EAST;
+			}
+
+			@Override
+			public Direction getAntiClockwiseDir() {
+				return WEST;
+			}
+		}, EAST {
+			@Override
+			public Direction getClockwiseDir() {
+				return SOUTH;
+			}
+
+			@Override
+			public Direction getAntiClockwiseDir() {
+				return NORTH;
+			}
+		}, SOUTH {
+			@Override
+			public Direction getClockwiseDir() {
+				return WEST;
+			}
+
+			@Override
+			public Direction getAntiClockwiseDir() {
+				return EAST;
+			}
+		}, WEST {
+			@Override
+			public Direction getClockwiseDir() {
+				return NORTH;
+			}
+
+			@Override
+			public Direction getAntiClockwiseDir() {
+				return SOUTH;
+			}
+		};
+		
+		public abstract Direction getClockwiseDir();
+		public abstract Direction getAntiClockwiseDir();
+	}
 }
