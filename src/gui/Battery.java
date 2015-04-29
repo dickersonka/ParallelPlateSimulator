@@ -27,8 +27,8 @@ public class Battery extends Container {
 	}
 	
 	@Override
-	public void showSlidersAndRotations() {
-		super.showSlidersAndRotations();
+	protected void showComponentControls() {
+		super.showComponentControls();
 		
 		sliderBox.getChildren().add(slider);
 		Label voltageLabel = new Label();

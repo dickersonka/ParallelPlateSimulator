@@ -2,7 +2,6 @@ package gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -17,26 +16,28 @@ public abstract class Container extends Pane {
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
 	protected Controller controller;
 	protected VBox sliderBox;
+	protected HBox rotationButtonBox;
 	protected ImageView img = new ImageView();
 	
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
-		setupMousePressed();
+		setupOnMousePressed();
 	}
 	
 	public Container(Controller controller) {
 		this();
 
 		this.controller = controller;
-		this.sliderBox = controller.getSliderBox();
-		setupMousePressed();
+		sliderBox = controller.getSliderBox();
+		rotationButtonBox = makeRotationButtons();
+		setupOnMousePressed();
 	}
 	
-	public void setupMousePressed() {
+	public void setupOnMousePressed() {
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				showSlidersAndRotations();
+				showComponentControls();
 			}
 		});
 	}
@@ -57,13 +58,12 @@ public abstract class Container extends Pane {
 		return this.getChildren().get(0);
 	}
 	
-	public void showSlidersAndRotations() {
+	protected void showComponentControls() {
 		sliderBox.getChildren().clear();
-		HBox buttonBox = getRotationButtons();
-		sliderBox.getChildren().add(buttonBox);
+		sliderBox.getChildren().add(rotationButtonBox);
 	}
 	
-	protected HBox getRotationButtons() {
+	private HBox makeRotationButtons() {
 		Button clockwiseButton = new Button();
 		clockwiseButton.setText("\u21B7");
 		clockwiseButton.setFont(new Font(18));

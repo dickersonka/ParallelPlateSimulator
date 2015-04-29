@@ -1,5 +1,6 @@
 package gui;
 
+import gui.Wire.WireType;
 import calculator.Calculation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,21 +43,17 @@ public class Controller {
 		setTile(2,1,new Battery(this));
 		setTile(2,3, capacitor);
 		
-		setTile(1,1, new Wire(this));
-		getTile(1,1).setImage(Wire.CORNER_WIRE);
+		setTile(1,1, new Wire(this, WireType.CORNER));
 		setTile(1,2, new Wire(this));
 		getTile(1,2).turnImageClockwise();
-		setTile(1,3, new Wire(this));
-		getTile(1,3).setImage(Wire.CORNER_WIRE);
+		setTile(1,3, new Wire(this, WireType.CORNER));
 		getTile(1,3).turnImageClockwise();
 		
-		setTile(3,1, new Wire(this));
-		getTile(3,1).setImage(Wire.CORNER_WIRE);
+		setTile(3,1, new Wire(this, WireType.CORNER));
 		getTile(3,1).turnImageAntiClockwise();
 		setTile(3,2, new Wire(this));
 		getTile(3,2).turnImageClockwise();
-		setTile(3,3, new Wire(this));
-		getTile(3,3).setImage(Wire.CORNER_WIRE);
+		setTile(3,3, new Wire(this, WireType.CORNER));
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		

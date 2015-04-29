@@ -116,8 +116,8 @@ public class Capacitor extends Container {
 	}
 	
 	@Override
-	public void showSlidersAndRotations() {
-		super.showSlidersAndRotations();
+	protected void showComponentControls() {
+		super.showComponentControls();
 		sliderBox.getChildren().get(0).setDisable(true);
 		
 		sliderBox.getChildren().add(areaSlider);
