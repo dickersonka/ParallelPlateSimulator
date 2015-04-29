@@ -17,19 +17,23 @@ public abstract class Container extends Pane {
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
-		//TODO: for capacitor, set the incremental stuff to fix the labels
+		setupMousePressed();
 	}
 	
 	public Container(Controller controller) {
 		this();
-		
-		this.setOnMousePressed(new EventHandler<MouseEvent>() {
-			public void handle(MouseEvent arg0) {
-				showSliders();
-			}
-		});
+
 		this.controller = controller;
 		this.sliderBox = controller.getSliderBox();
+		setupMousePressed();
+	}
+	
+	public void setupMousePressed() {
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent arg0) {
+				showSlidersAndRotations();
+			}
+		});
 	}
 	
 	public void setImage(String imageName) {
@@ -48,7 +52,7 @@ public abstract class Container extends Pane {
 		return this.getChildren().get(0);
 	}
 	
-	public abstract void showSliders();
+	public abstract void showSlidersAndRotations();
 	
 	//public abstract void changeValue(double value);
 

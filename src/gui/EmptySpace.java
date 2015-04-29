@@ -7,5 +7,5 @@ public class EmptySpace extends Container {
 	}
 
 	@Override
-	public void showSliders() {}
+	public void showSlidersAndRotations() {}
 }

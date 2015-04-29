@@ -2,9 +2,11 @@ package gui;
 
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
@@ -116,7 +118,7 @@ public class Capacitor extends Container {
 	}
 	
 	@Override
-	public void showSliders() {
+	public void showSlidersAndRotations() {
 		sliderBox.getChildren().clear();
 		sliderBox.getChildren().add(0, areaSlider);
 		Label areaLabel = new Label();
