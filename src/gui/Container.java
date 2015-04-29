@@ -60,7 +60,6 @@ public abstract class Container extends Pane {
 	public void showSlidersAndRotations() {
 		sliderBox.getChildren().clear();
 		HBox buttonBox = getRotationButtons();
-		//buttonBox.setPadding(new Insets());
 		sliderBox.getChildren().add(buttonBox);
 	}
 	
