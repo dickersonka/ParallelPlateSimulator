@@ -6,7 +6,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -14,36 +19,35 @@ import javafx.scene.text.Font;
 
 public abstract class Container extends Pane {
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
+	public final static DataFormat CONTAINER_FORMAT = new DataFormat("CONTAINER");
+	
 	protected Controller controller;
 	protected VBox sliderBox;
 	protected HBox rotationButtonBox;
+	protected Button deleteButton;
 	protected ImageView img = new ImageView();
-	protected Button deleteButton = new Button();
 	
 	protected Direction outputDir, inputDir;
 	protected Container outputRecipient;
 	
-	public Container() {
+	public Container(Controller controller) {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
-		setupOnMousePressed();
-	}
-	
-	public Container(Controller controller) {
-		this();
 
 		this.controller = controller;
 		sliderBox = controller.getSliderBox();
 		rotationButtonBox = makeRotationButtons();
+		
 		setupDeleteButton();
 		setupOnMousePressed();
+		setupDragDrop();
 		
 		outputDir = Direction.NORTH;
 		inputDir = Direction.SOUTH;
 		checkConnections();
 	}
 	
-	private void setupOnMousePressed() {
+	protected void setupOnMousePressed() {
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
 				showComponentControls();
@@ -51,7 +55,8 @@ public abstract class Container extends Pane {
 		});
 	}
 	
-	private void setupDeleteButton() {
+	protected void setupDeleteButton() {
+		deleteButton = new Button();
 		deleteButton.setText("\u232B");
 		deleteButton.setFont(new Font(18));
 		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -61,13 +66,31 @@ public abstract class Container extends Pane {
 		});
 	}
 	
-	/*private void setupDragDrop() {
-		this.setOnDragDropped(new EventHandler<MouseEvent>() {
+	protected void setupDragDrop() {
+		this.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
-				controller.dropTile(e);
+				Dragboard db = Container.this.startDragAndDrop(TransferMode.MOVE);
+				ClipboardContent c = new ClipboardContent();
+				c.put(CONTAINER_FORMAT, Container.this);
+				db.setContent(c);
+				
+				e.consume();
 			}
 		});
-	}*/
+		
+		this.setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				if(e.getGestureSource() != Container.this &&
+						e.getDragboard().hasContent(CONTAINER_FORMAT)) {
+					e.acceptTransferModes(TransferMode.MOVE);
+				}
+				
+				e.consume();
+			}
+		});
+		
+		this.setOnDragEntered(arg0);
+	}
 	
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
@@ -91,6 +114,7 @@ public abstract class Container extends Pane {
 	
 	protected void checkConnections() {
 		//TODO: Look at the tiles in the input and output directions to see if everything is oriented correctly.
+		controller.infoPush(); //If connections are valid
 	}
 	
 	protected void giveInput(CircuitData c) {

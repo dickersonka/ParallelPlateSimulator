@@ -140,6 +140,9 @@ public class Controller {
 		sliderBox.getChildren().clear();
 	}
 
+	public void infoPush() {
+		// TODO Do stuff with the battery
+	}
 	
 	//===================================================\\
 	//					Calculator Tab					 \\
