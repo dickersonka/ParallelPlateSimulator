@@ -134,6 +134,10 @@ public class Controller {
 		straightWire.setVisible(false);
 		e.consume();
 	}
+	
+	public TilePane getCircuitGrid() {
+		return circuitGrid;
+	}
 
 	
 	//===================================================\\

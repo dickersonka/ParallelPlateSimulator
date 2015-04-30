@@ -18,6 +18,7 @@ public abstract class Container extends Pane {
 	protected VBox sliderBox;
 	protected HBox rotationButtonBox;
 	protected ImageView img = new ImageView();
+	protected Button deleteButton = new Button();
 	
 	protected Direction outputDir, inputDir;
 	protected Container outputRecipient;
@@ -34,6 +35,7 @@ public abstract class Container extends Pane {
 		this.controller = controller;
 		sliderBox = controller.getSliderBox();
 		rotationButtonBox = makeRotationButtons();
+		setupDeleteButton();
 		setupOnMousePressed();
 		
 		outputDir = Direction.NORTH;
@@ -49,8 +51,23 @@ public abstract class Container extends Pane {
 		});
 	}
 	
+	public void setupDeleteButton() {
+		deleteButton.setText("\u232B");
+		deleteButton.setFont(new Font(18));
+		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent arg0) {
+				removeComponent();
+			}
+		});
+	}
+	
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
+	}
+	
+	public void removeComponent() {
+		controller.getCircuitGrid().getChildren().set(controller.getCircuitGrid().getChildren().indexOf(this), new EmptySpace());
+		sliderBox.getChildren().clear();
 	}
 	
 	public void turnImageClockwise() {
@@ -80,6 +97,7 @@ public abstract class Container extends Pane {
 	protected void showComponentControls() {
 		sliderBox.getChildren().clear();
 		sliderBox.getChildren().add(rotationButtonBox);
+		sliderBox.getChildren().add(deleteButton);
 	}
 	
 	private HBox makeRotationButtons() {

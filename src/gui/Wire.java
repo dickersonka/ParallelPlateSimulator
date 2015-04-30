@@ -29,6 +29,7 @@ public class Wire extends Container {
 				setType(typeChooser.getSelectionModel().getSelectedItem());
 			}
 		});
+		typeChooser.getSelectionModel().select(type);
 		
 	}
 	
