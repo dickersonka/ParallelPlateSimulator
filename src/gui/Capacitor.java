@@ -91,7 +91,6 @@ public class Capacitor extends Container {
 			yStart = bottomPlate.getStartY();
 			yEnd = topPlate.getStartY();
 		}
-		//TODO: depending on separation, area, and voltage, this will vary the density! some sort of loop will be required
 		//TODO: electric field line density increases as distance decreases
 				//electric field line density stays the same as area changes
 				//electric field line density increases as voltage increases, flips as voltage is switched;
