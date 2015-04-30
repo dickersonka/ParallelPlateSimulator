@@ -21,6 +21,9 @@ public abstract class Container extends Pane {
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
 	public final static DataFormat CONTAINER_FORMAT = new DataFormat("CONTAINER");
 	
+	protected final static ImageView CANNOT_DROP_HIGHLIGHT = new ImageView(new Image("/img/cannot_drop_highlight.png"));
+	protected final static ImageView CAN_DROP_HIGHLIGHT = new ImageView(new Image("/img/can_drop_highlight.png"));
+	
 	protected Controller controller;
 	protected VBox sliderBox;
 	protected HBox rotationButtonBox;
@@ -30,9 +33,13 @@ public abstract class Container extends Pane {
 	protected Direction outputDir, inputDir;
 	protected Container outputRecipient;
 	
-	public Container(Controller controller) {
+	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
+	}
+	
+	public Container(Controller controller) {
+		this();
 
 		this.controller = controller;
 		sliderBox = controller.getSliderBox();

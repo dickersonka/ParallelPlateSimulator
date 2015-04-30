@@ -65,7 +65,21 @@ public class Wire extends Container {
 	protected void showComponentControls() {
 		super.showComponentControls();
 		sliderBox.getChildren().add(typeChooser);
-		
+	}
+
+	@Override
+	protected void highlight() {
+		this.getChildren().add(CANNOT_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected void dehighlight() {
+		this.getChildren().remove(CANNOT_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected boolean canBeDroppedOn() {
+		return false;
 	}
 
 	public enum WireType {

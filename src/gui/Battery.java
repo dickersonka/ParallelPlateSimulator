@@ -36,4 +36,19 @@ public class Battery extends Container {
 		sliderBox.getChildren().add(voltageLabel);
 	}
 
+	@Override
+	protected void highlight() {
+		this.getChildren().add(CANNOT_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected void dehighlight() {
+		this.getChildren().remove(CANNOT_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected boolean canBeDroppedOn() {
+		return false;
+	}
+
 }

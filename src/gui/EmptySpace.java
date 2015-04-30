@@ -5,6 +5,21 @@ public class EmptySpace extends Container {
 	public EmptySpace() {
 		setImage("/img/empty_tile.png");
 	}
+
+	@Override
+	protected void highlight() {
+		this.getChildren().add(CAN_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected void dehighlight() {
+		this.getChildren().remove(CAN_DROP_HIGHLIGHT);
+	}
+
+	@Override
+	protected boolean canBeDroppedOn() {
+		return true;
+	}
 	
 	@Override
 	protected void showComponentControls() {}
