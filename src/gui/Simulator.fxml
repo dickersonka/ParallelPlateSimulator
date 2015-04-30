@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -21,11 +22,7 @@
                               <Separator />
                               <HBox fx:id="circuitComponentDock" prefHeight="64.0">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="50.0" prefWidth="600.0" text="Components cannot be dynamically added at this time." textFill="#727272">
-                                       <font>
-                                          <Font name="Lucida Sans Regular" size="15.0" />
-                                       </font>
-                                    </Label>
+                                    <ImageView fx:id="straightWire" fitHeight="101.0" fitWidth="237.0" onDragDetected="#dragDetected" onDragDone="#dragDone" onDragOver="#dragOver" pickOnBounds="true" preserveRatio="true" />
                                  </children>
                               </HBox>
                            </children>
