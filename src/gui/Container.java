@@ -1,5 +1,8 @@
 package gui;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javafx.event.ActionEvent;
@@ -68,9 +71,6 @@ public abstract class Container extends Pane implements Serializable{
 	
 	protected void updateOutput() {
 		outputRecipient = controller.getComponentInDir(this, outputDir);
-		//System.out.println(this);
-		//System.out.println(outputDir);
-		//System.out.println();
 	}
 
 	protected void setupOnMousePressed() {
@@ -154,10 +154,6 @@ public abstract class Container extends Pane implements Serializable{
 	protected abstract void highlight();
 	protected abstract void dehighlight();
 	protected abstract boolean canBeDroppedOn();
-	
-	public Container getOutputRecipient() {
-		return outputRecipient;
-	}
 
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
@@ -200,7 +196,7 @@ public abstract class Container extends Pane implements Serializable{
 		sliderBox.getChildren().add(rotationButtonBox);
 		sliderBox.getChildren().add(deleteButton);
 		
-		Label componentID = new Label();
+		/*Label componentID = new Label();
 		componentID.setText("This: " + this.toString());
 		sliderBox.getChildren().add(componentID);
 		
@@ -209,7 +205,7 @@ public abstract class Container extends Pane implements Serializable{
 			outputLabel.setText("Next: " + outputRecipient.toString());
 		else
 			outputLabel.setText("NULL");
-		sliderBox.getChildren().add(outputLabel);
+		sliderBox.getChildren().add(outputLabel);*/
 	}
 	
 	private HBox makeRotationButtons() {
@@ -236,6 +232,37 @@ public abstract class Container extends Pane implements Serializable{
 		rotationButtons.getChildren().add(clockwiseButton);
 		return rotationButtons;
 	}
+	
+	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
+		in.defaultReadObject();
+	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.defaultWriteObject();
+	}
+	
+	/*
+	 * 		Getters for serialization
+	 */
+	public Controller getController() {return controller;}
+	public VBox getSliderBox() {return sliderBox;}
+	public HBox getRotationButtonBox() {return rotationButtonBox;}
+	public Button getDeleteButton() {return deleteButton;}
+	public ImageView getImg() {return img;}
+	public Direction getOutputDir() {return outputDir;}
+	public Direction getInputDir() {return inputDir;}
+	public Container getOutputRecipient() {return outputRecipient;}
+	
+	/*
+	 * 		Setters for serialization
+	 */
+	public void setSliderBox(VBox sliderBox) {this.sliderBox = sliderBox;}
+	public void setRotationButtonBox(HBox rotationButtonBox) {this.rotationButtonBox = rotationButtonBox;}
+	public void setDeleteButton(Button deleteButton) {this.deleteButton = deleteButton;}
+	public void setImg(ImageView img) {this.img = img;}
+	public void setOutputDir(Direction outputDir) {this.outputDir = outputDir;}
+	public void setInputDir(Direction inputDir) {this.inputDir = inputDir;}
+	public void setOutputRecipient(Container outputRecipient) {this.outputRecipient = outputRecipient;}
 
 	public enum Direction {
 		NORTH {
