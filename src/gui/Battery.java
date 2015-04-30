@@ -23,7 +23,10 @@ public class Battery extends Container {
 		
 		slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				Battery.this.controller.getCapacitor().changeFieldLines(slider.getValue());
+				CircuitData cd = new CircuitData();
+				cd.setVoltage(Battery.this.slider.getValue());
+				if(Battery.this.controller.isValidCircuit())
+					Battery.this.outputRecipient.giveInput(cd);
 			}
 		});
 		
@@ -33,6 +36,7 @@ public class Battery extends Container {
 	@Override
 	protected void showComponentControls() {
 		super.showComponentControls();
+		sliderBox.getChildren().get(1).setDisable(true);
 		
 		sliderBox.getChildren().add(slider);
 		Label voltageLabel = new Label();

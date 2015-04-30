@@ -1,5 +1,6 @@
 package gui;
 
+import gui.Container.Direction;
 import gui.Wire.WireType;
 import calculator.Calculation;
 import javafx.fxml.FXML;
@@ -34,6 +35,8 @@ public class Controller {
 	ImageView straightWire;
 	
 	private Capacitor capacitor;
+	private Battery battery;
+	private boolean circuitIsValid = false;
 	public final int NUM_TILE_ROWS = 7;
 	public final int NUM_TILE_COLS = 10;
 
@@ -50,7 +53,8 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
-		setTile(2,1, new Battery(this));
+		battery = new Battery(this);
+		setTile(2,1, battery);
 		capacitor = new Capacitor(this);
 		setTile(2,3, capacitor);
 		getTile(2,3).turnImageClockwise();
@@ -70,6 +74,7 @@ public class Controller {
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		
+		circuitIsValid = true;
 	}
 	
 	private Container getTile(int row, int col) {
@@ -80,9 +85,25 @@ public class Controller {
 		circuitGrid.getChildren().set(toIdx(row,col), c);
 	}
 	
-	private int toIdx(int row, int col) throws IllegalArgumentException{
+	private int toIdx(int row, int col) throws IllegalArgumentException {
 		if(row >= 0 && row < NUM_TILE_ROWS && col >= 0 && col < NUM_TILE_COLS) {
 			return (row * NUM_TILE_COLS) + col;
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	private int toRow(int idx) throws IllegalArgumentException {
+		if(idx >= 0 || idx < NUM_TILE_ROWS * NUM_TILE_COLS) {
+			return idx/NUM_TILE_COLS;
+		} else {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	private int toCol(int idx) throws IllegalArgumentException {
+		if(idx >= 0 || idx < NUM_TILE_ROWS * NUM_TILE_COLS) {
+			return idx % NUM_TILE_COLS;
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -139,15 +160,62 @@ public class Controller {
 		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
 		sliderBox.getChildren().clear();
 	}
-	
 
+	public Container getComponentInDir(Container center, Direction outputDir) {
+		try {
+			int idx = circuitGrid.getChildren().indexOf(center);
+			Container result;
+			switch(outputDir) {
+			case NORTH:
+				result = getTile(toRow(idx)-1, toCol(idx));
+				if(result.getClass() == EmptySpace.class)
+					return null;
+				return result;
+			case EAST:
+				result = getTile(toRow(idx), toCol(idx)+1);
+				if(result.getClass() == EmptySpace.class)
+					return null;
+				return result;
+			case SOUTH:
+				result = getTile(toRow(idx)+1, toCol(idx));
+				if(result.getClass() == EmptySpace.class)
+					return null;
+				return result;
+			case WEST:
+				result = getTile(toRow(idx), toCol(idx)-1);
+				if(result.getClass() == EmptySpace.class)
+					return null;
+				return result;
+			}
+		} catch(Exception x) {
+			return null;
+		}
+		
+		return null;
+	}
 
 	public void replaceComponent(Container current, Container replacement) {
 		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(current), replacement);
 	}
+	
+	public void validateCircuit() {
+		circuitIsValid = validateComponent(battery);
+	}
+	
+	private boolean validateComponent(Container c) {
+		if(c == null ||
+				c.getOutputRecipient() == null ||
+				c == c.getOutputRecipient().getOutputRecipient()) {
+			return false;
+		} else if(c.getOutputRecipient() == battery) {
+			return true;
+		} else {
+			return validateComponent(c);
+		}
+	}
 
-	public void infoPush() {
-		// TODO Do stuff with the battery
+	public boolean isValidCircuit() {
+		return circuitIsValid;
 	}
 	
 	//===================================================\\

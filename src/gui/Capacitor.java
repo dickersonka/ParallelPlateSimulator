@@ -34,7 +34,6 @@ public class Capacitor extends Container {
 		setupSliders();
 		setImage("/img/background.png");
 		initializeCapacitorImage();
-		
 	}
 	
 	public void setupSliders() {

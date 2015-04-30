@@ -44,12 +44,18 @@ public class Wire extends Container {
 		switch(this.type) {
 		case STRAIGHT:
 			setImage(STRAIGHT_WIRE_IMG);
+			outputDir = inputDir.getClockwiseDir().getClockwiseDir();
+			updateOutput();
 			break;
 		case CORNER:
 			setImage(CORNER_WIRE_IMG);
+			outputDir = inputDir.getAntiClockwiseDir();
+			updateOutput();
 			break;
 		case T_SECTION:
 			setImage(T_SECTION_WIRE_IMG);
+			outputDir = inputDir.getClockwiseDir().getClockwiseDir();
+			updateOutput();
 		}
 	}
 	

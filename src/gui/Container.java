@@ -57,10 +57,18 @@ public abstract class Container extends Pane implements Serializable{
 		setupDragDrop();
 		
 		outputDir = Direction.NORTH;
+		updateOutput();
 		inputDir = Direction.SOUTH;
-		checkConnections();
+		Container input = this.controller.getComponentInDir(this, inputDir);
+		if(input != null)
+			input.updateOutput();
+		this.controller.validateCircuit();
 	}
 	
+	protected void updateOutput() {
+		outputRecipient = controller.getComponentInDir(this, outputDir);
+	}
+
 	protected void setupOnMousePressed() {
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
@@ -76,6 +84,7 @@ public abstract class Container extends Pane implements Serializable{
 		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg0) {
 				controller.removeComponent(Container.this);
+				controller.validateCircuit();
 			}
 		});
 	}
@@ -129,6 +138,7 @@ public abstract class Container extends Pane implements Serializable{
 				if(Container.this.canBeDroppedOn() &&
 						db.hasContent(CONTAINER_FORMAT)) {
 					controller.replaceComponent(Container.this, (Container)db.getContent(CONTAINER_FORMAT));
+					controller.validateCircuit();
 				}
 				
 				e.setDropCompleted(success);
@@ -137,10 +147,13 @@ public abstract class Container extends Pane implements Serializable{
 		});
 	}
 	
-
 	protected abstract void highlight();
 	protected abstract void dehighlight();
 	protected abstract boolean canBeDroppedOn();
+	
+	public Container getOutputRecipient() {
+		return outputRecipient;
+	}
 
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
@@ -150,21 +163,24 @@ public abstract class Container extends Pane implements Serializable{
 		getImage().setRotate(getImage().getRotate() + 90.0);
 		
 		outputDir = outputDir.getClockwiseDir();
+		updateOutput();
 		inputDir = inputDir.getClockwiseDir();
-		checkConnections();
+		Container input = controller.getComponentInDir(this, inputDir);
+		if(input != null)
+			input.updateOutput();
+		controller.validateCircuit();
 	}
 	
 	public void turnImageAntiClockwise() {
 		getImage().setRotate(getImage().getRotate() - 90.0);
 		
 		outputDir = outputDir.getAntiClockwiseDir();
+		updateOutput();
 		inputDir = inputDir.getAntiClockwiseDir();
-		checkConnections();
-	}
-	
-	protected void checkConnections() {
-		//TODO: Look at the tiles in the input and output directions to see if everything is oriented correctly.
-		controller.infoPush(); //If connections are valid
+		Container input = controller.getComponentInDir(this, inputDir);
+		if(input != null)
+			input.updateOutput();
+		controller.validateCircuit();
 	}
 	
 	protected void giveInput(CircuitData c) {
