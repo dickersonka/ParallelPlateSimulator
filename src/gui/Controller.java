@@ -135,8 +135,8 @@ public class Controller {
 		e.consume();
 	}
 	
-	public TilePane getCircuitGrid() {
-		return circuitGrid;
+	public void removeComponent(Container container) {
+		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
 	}
 
 	

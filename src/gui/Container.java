@@ -66,7 +66,7 @@ public abstract class Container extends Pane {
 	}
 	
 	public void removeComponent() {
-		controller.getCircuitGrid().getChildren().set(controller.getCircuitGrid().getChildren().indexOf(this), new EmptySpace());
+		controller.removeComponent(this);
 		sliderBox.getChildren().clear();
 	}
 	
