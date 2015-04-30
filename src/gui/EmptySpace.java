@@ -1,6 +1,10 @@
 package gui;
 
 public class EmptySpace extends Container {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5211823242481439468L;
 
 	public EmptySpace() {
 		setImage("/img/empty_tile.png");

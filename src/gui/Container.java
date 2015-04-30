@@ -1,5 +1,7 @@
 package gui;
 
+import java.io.Serializable;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -17,7 +19,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public abstract class Container extends Pane {
+public abstract class Container extends Pane implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1431027753233575127L;
+	
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
 	public final static DataFormat CONTAINER_FORMAT = new DataFormat("CONTAINER");
 	

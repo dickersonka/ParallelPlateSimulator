@@ -6,7 +6,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 
 public class Battery extends Container {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3605414790990169908L;
+	
 	private Slider slider = new Slider();
 	
 	public Battery(Controller controller) {

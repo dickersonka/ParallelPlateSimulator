@@ -12,6 +12,11 @@ import javafx.scene.shape.Line;
 
 public class Capacitor extends Container {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2654188130969981857L;
+	
 	private Slider areaSlider = new Slider();
 	private Slider separationSlider = new Slider();
 	private Line topPlate = new Line();
