@@ -133,6 +133,12 @@ public class Capacitor extends Container {
 		sliderBox.getChildren().add(distanceLabel);
 		//TODO: if these go in the boxes like I expect, they will need to be offset. somehow.
 	}
+	
+	@Override
+	public void giveInput(CircuitData c) {
+		changeFieldLines(c.getVoltage());
+		outputRecipient.giveInput(c);
+	}
 
 	@Override
 	protected void highlight() {

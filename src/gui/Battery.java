@@ -23,15 +23,19 @@ public class Battery extends Container {
 		
 		slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				CircuitData cd = new CircuitData();
-				cd.setVoltage(Battery.this.slider.getValue());
-				if(Battery.this.controller.isValidCircuit())
+				if(Battery.this.controller.isValidCircuit()) {
+					CircuitData cd = new CircuitData();
+					cd.setVoltage(Battery.this.slider.getValue());
 					Battery.this.outputRecipient.giveInput(cd);
+				}
 			}
 		});
 		
 		setImage("/img/battery.png");
 	}
+	
+	@Override
+	public void giveInput(CircuitData c) {}
 	
 	@Override
 	protected void showComponentControls() {

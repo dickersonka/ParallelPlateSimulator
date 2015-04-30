@@ -69,12 +69,12 @@ public class Controller {
 		setTile(3,1, new Wire(this, WireType.CORNER));
 		getTile(3,1).turnImageAntiClockwise();
 		setTile(3,2, new Wire(this));
-		getTile(3,2).turnImageClockwise();
+		getTile(3,2).turnImageAntiClockwise();
 		setTile(3,3, new Wire(this, WireType.CORNER));
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		
-		circuitIsValid = true;
+		validateCircuit();
 	}
 	
 	private Container getTile(int row, int col) {
@@ -203,14 +203,19 @@ public class Controller {
 	}
 	
 	private boolean validateComponent(Container c) {
-		if(c == null ||
-				c.getOutputRecipient() == null ||
+		if(c == null) {
+			return false;
+		}
+		
+		c.updateOutput();
+		
+		if(c.getOutputRecipient() == null ||
 				c == c.getOutputRecipient().getOutputRecipient()) {
 			return false;
 		} else if(c.getOutputRecipient() == battery) {
 			return true;
 		} else {
-			return validateComponent(c);
+			return validateComponent(c.getOutputRecipient());
 		}
 	}
 

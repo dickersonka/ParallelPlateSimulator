@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -67,6 +68,9 @@ public abstract class Container extends Pane implements Serializable{
 	
 	protected void updateOutput() {
 		outputRecipient = controller.getComponentInDir(this, outputDir);
+		//System.out.println(this);
+		//System.out.println(outputDir);
+		//System.out.println();
 	}
 
 	protected void setupOnMousePressed() {
@@ -195,6 +199,17 @@ public abstract class Container extends Pane implements Serializable{
 		sliderBox.getChildren().clear();
 		sliderBox.getChildren().add(rotationButtonBox);
 		sliderBox.getChildren().add(deleteButton);
+		
+		Label componentID = new Label();
+		componentID.setText("This: " + this.toString());
+		sliderBox.getChildren().add(componentID);
+		
+		Label outputLabel = new Label();
+		if(outputRecipient != null)
+			outputLabel.setText("Next: " + outputRecipient.toString());
+		else
+			outputLabel.setText("NULL");
+		sliderBox.getChildren().add(outputLabel);
 	}
 	
 	private HBox makeRotationButtons() {
