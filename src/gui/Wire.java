@@ -12,8 +12,7 @@ public class Wire extends Container {
 	public final static String T_SECTION_WIRE_IMG = "/img/t_section_wire.png";
 	
 	private WireType type;
-	private ComboBox<String> typeChooser = new ComboBox<String>();
-	private ObservableList<String> wireTypes = FXCollections.observableArrayList();
+	private ComboBox<WireType> typeChooser = new ComboBox<WireType>();
 
 	public Wire(Controller controller) {
 		this(controller, WireType.STRAIGHT);
@@ -23,30 +22,14 @@ public class Wire extends Container {
 		super(controller);
 		setType(type);
 		
-		wireTypes.add("Straight wire");
-		wireTypes.add("Corner wire");
-		wireTypes.add("T-section wire");
-		typeChooser.setItems(wireTypes);
-		typeChooser.getSelectionModel().select(getTypeAsString());
+		ObservableList<WireType> wireTypeList = FXCollections.observableArrayList(WireType.values());
+		typeChooser.setItems(wireTypeList);
 		typeChooser.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg0) {
-				changeWireType(typeChooser.getSelectionModel().getSelectedItem());
+				setType(typeChooser.getSelectionModel().getSelectedItem());
 			}
 		});
 		
-	}
-	
-	public void changeWireType(String wiretype) {
-		switch(wiretype) {
-		case "Straight wire":
-			setType(WireType.STRAIGHT);
-			break;
-		case "Corner wire":
-			setType(WireType.CORNER);
-			break;
-		case "T-section wire":
-			setType(WireType.T_SECTION);
-		}
 	}
 	
 	public void setType(WireType type) {
@@ -79,13 +62,29 @@ public class Wire extends Container {
 
 	@Override
 	protected void showComponentControls() {
-		sliderBox.getChildren().clear();
 		super.showComponentControls();
 		sliderBox.getChildren().add(typeChooser);
 		
 	}
 
 	public enum WireType {
-		STRAIGHT, CORNER, T_SECTION;
+		STRAIGHT {
+			@Override
+			public String toString() {
+				return "Straight";
+			}
+		}, CORNER {
+			@Override
+			public String toString() {
+				return "Corner";
+			}
+		}, T_SECTION {
+			@Override
+			public String toString() {
+				return "T-Section";
+			}
+		};
+		
+		public abstract String toString();
 	};
 }

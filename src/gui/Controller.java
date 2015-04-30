@@ -30,7 +30,7 @@ public class Controller {
 	HBox circuitComponentDock;
 	@FXML
 	VBox sliderBox;
-	@FXML
+	@FXML 
 	ImageView straightWire;
 	
 	private Capacitor capacitor;
@@ -46,7 +46,7 @@ public class Controller {
 		}
 		
 		addBasicCircuit();
-		circuitComponents();
+		//circuitComponents();
 	}
 	
 	private void addBasicCircuit() {
