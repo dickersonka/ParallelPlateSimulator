@@ -56,7 +56,7 @@ public abstract class Container extends Pane {
 		deleteButton.setFont(new Font(18));
 		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent arg0) {
-				removeComponent();
+				controller.removeComponent(Container.this);
 			}
 		});
 	}
@@ -71,11 +71,6 @@ public abstract class Container extends Pane {
 	
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
-	}
-	
-	public void removeComponent() {
-		controller.removeComponent(this);
-		sliderBox.getChildren().clear();
 	}
 	
 	public void turnImageClockwise() {

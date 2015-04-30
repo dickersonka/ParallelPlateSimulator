@@ -137,6 +137,7 @@ public class Controller {
 	
 	public void removeComponent(Container container) {
 		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
+		sliderBox.getChildren().clear();
 	}
 
 	
