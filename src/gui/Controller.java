@@ -139,6 +139,12 @@ public class Controller {
 		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
 		sliderBox.getChildren().clear();
 	}
+	
+
+
+	public void replaceComponent(Container current, Container replacement) {
+		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(current), replacement);
+	}
 
 	public void infoPush() {
 		// TODO Do stuff with the battery

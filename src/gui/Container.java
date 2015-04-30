@@ -89,9 +89,45 @@ public abstract class Container extends Pane {
 			}
 		});
 		
-		this.setOnDragEntered(arg0);
+		this.setOnDragEntered(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				if(e.getGestureSource() != Container.this &&
+						e.getDragboard().hasContent(CONTAINER_FORMAT)) {
+					Container.this.highlight();
+				}
+				
+				e.consume();
+			}
+		});
+		
+		this.setOnDragExited(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				Container.this.dehighlight();
+				
+				e.consume();
+			}
+		});
+		
+		this.setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				boolean success = false;
+				Dragboard db = e.getDragboard();
+				if(Container.this.canBeDroppedOn() &&
+						db.hasContent(CONTAINER_FORMAT)) {
+					controller.replaceComponent(Container.this, (Container)db.getContent(CONTAINER_FORMAT));
+				}
+				
+				e.setDropCompleted(success);
+				e.consume();
+			}
+		});
 	}
 	
+
+	protected abstract void highlight();
+	protected abstract void dehighlight();
+	protected abstract boolean canBeDroppedOn();
+
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
 	}
