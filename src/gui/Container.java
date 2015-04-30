@@ -93,6 +93,10 @@ public abstract class Container extends Pane {
 		//TODO: Look at the tiles in the input and output directions to see if everything is oriented correctly.
 	}
 	
+	protected void giveInput(CircuitData c) {
+		outputRecipient.giveInput(c);
+	}
+	
 	protected Node getImage() {
 		return this.getChildren().get(0);
 	}

@@ -8,4 +8,7 @@ public class EmptySpace extends Container {
 	
 	@Override
 	protected void showComponentControls() {}
+	
+	@Override
+	protected void giveInput(CircuitData c) {}
 }
