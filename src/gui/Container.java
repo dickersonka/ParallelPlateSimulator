@@ -43,7 +43,7 @@ public abstract class Container extends Pane {
 		checkConnections();
 	}
 	
-	public void setupOnMousePressed() {
+	private void setupOnMousePressed() {
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
 				showComponentControls();
@@ -51,7 +51,7 @@ public abstract class Container extends Pane {
 		});
 	}
 	
-	public void setupDeleteButton() {
+	private void setupDeleteButton() {
 		deleteButton.setText("\u232B");
 		deleteButton.setFont(new Font(18));
 		deleteButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -60,6 +60,14 @@ public abstract class Container extends Pane {
 			}
 		});
 	}
+	
+	/*private void setupDragDrop() {
+		this.setOnDragDropped(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				controller.dropTile(e);
+			}
+		});
+	}*/
 	
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
