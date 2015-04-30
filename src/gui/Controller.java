@@ -3,9 +3,17 @@ package gui;
 import gui.Wire.WireType;
 import calculator.Calculation;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -22,6 +30,8 @@ public class Controller {
 	HBox circuitComponentDock;
 	@FXML
 	VBox sliderBox;
+	@FXML
+	ImageView straightWire;
 	
 	private Capacitor capacitor;
 	public final int NUM_TILE_ROWS = 7;
@@ -36,6 +46,7 @@ public class Controller {
 		}
 		
 		addBasicCircuit();
+		circuitComponents();
 	}
 	
 	private void addBasicCircuit() {
@@ -85,7 +96,45 @@ public class Controller {
 		return capacitor;
 	}
 	
+	private void circuitComponents() {
+		Image wire =  new Image(Wire.STRAIGHT_WIRE_IMG);
+		straightWire.setImage(wire);
+	}
 	
+	@FXML
+	private void dragDetected(MouseEvent t){
+		straightWire.setOpacity(0.5);
+		straightWire.toFront();
+		straightWire.setMouseTransparent(true);
+		straightWire.setVisible(true);
+		straightWire.relocate(
+                (int) (t.getSceneX() - straightWire.getBoundsInLocal().getWidth() / 2),
+                (int) (t.getSceneY() - straightWire.getBoundsInLocal().getHeight() / 2));
+		
+		Dragboard db = circuitGrid.startDragAndDrop(TransferMode.ANY);
+        ClipboardContent content = new ClipboardContent();
+
+        content.putString(Wire.STRAIGHT_WIRE_IMG);
+        db.setContent(content);
+        
+		t.consume();
+	}
+	
+	@FXML
+	private void dragOver(DragEvent e){
+		Point2D localPoint = circuitGrid.getScene().getRoot().sceneToLocal(new Point2D(e.getSceneX(), e.getSceneY()));
+		straightWire.relocate(
+				(int) (localPoint.getX() - straightWire.getBoundsInLocal().getWidth() / 2),
+				(int) (localPoint.getY() - straightWire.getBoundsInLocal().getHeight() / 2));
+			e.consume();
+	}
+	
+	@FXML
+	private void dragDone(DragEvent e){
+		straightWire.setVisible(false);
+		e.consume();
+	}
+
 	
 	//===================================================\\
 	//					Calculator Tab					 \\
