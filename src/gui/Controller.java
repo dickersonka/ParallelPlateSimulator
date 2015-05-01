@@ -30,6 +30,8 @@ public class Controller {
 	@FXML
 	HBox circuitComponentDock;
 	@FXML
+	Label circuitStatus;
+	@FXML
 	VBox sliderBox;
 	@FXML 
 	ImageView straightWire;
@@ -199,11 +201,24 @@ public class Controller {
 	}
 
 	public void replaceComponent(Container current, Container replacement) {
-		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(current), replacement);
+		circuitGrid.getChildren().set(getIndexOfComponent(current), replacement);
+	}
+	
+	public void replaceComponent(int idx, Container replacement) {
+		circuitGrid.getChildren().set(idx, replacement);
+	}
+	
+	public int getIndexOfComponent(Container c) {
+		return circuitGrid.getChildren().indexOf(c);
 	}
 	
 	public void validateCircuit() {
 		circuitIsValid = validateComponent(battery);
+		
+		if(circuitIsValid)
+			circuitStatus.setText("Status: OK");
+		else
+			circuitStatus.setText("Status: Invalid Wiring");
 	}
 	
 	private boolean validateComponent(Container c) {

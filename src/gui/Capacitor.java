@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 
 public class Capacitor extends Container {
@@ -133,7 +134,9 @@ public class Capacitor extends Container {
 	@Override
 	protected void showComponentControls() {
 		super.showComponentControls();
-		sliderBox.getChildren().get(0).setDisable(true);
+		HBox controlBox = (HBox)sliderBox.getChildren().get(0);
+		controlBox.getChildren().get(0).setDisable(true);
+		controlBox.getChildren().get(2).setDisable(true);
 		
 		sliderBox.getChildren().add(areaSlider);
 		Label areaLabel = new Label();

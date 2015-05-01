@@ -2,6 +2,7 @@ package gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -27,7 +28,7 @@ public abstract class Container extends Pane{
 	
 	protected Controller controller;
 	protected VBox sliderBox;
-	protected HBox rotationButtonBox;
+	protected HBox controlButtonBox;
 	protected Button deleteButton;
 	protected ImageView img = new ImageView();
 	
@@ -40,9 +41,8 @@ public abstract class Container extends Pane{
 		
 		controller = ControllerPointer.getController();
 		sliderBox = controller.getSliderBox();
-		rotationButtonBox = makeRotationButtons();
+		controlButtonBox = makeControlButtons();
 		
-		setupDeleteButton();
 		setupOnMousePressed();
 		setupDragDrop();
 		
@@ -138,6 +138,17 @@ public abstract class Container extends Pane{
 					controller.replaceComponent(Container.this, Container.makeFromString(db.getString()));
 					success = true;
 					controller.validateCircuit();
+				} else {
+					String content = db.getString();
+					
+					int i;
+					for(i=0; i<content.length() && !Character.isDigit(content.charAt(i)); i++) {}
+					content = content.substring(i, content.length());
+					
+					int idx = Integer.parseInt(content);
+					controller.replaceComponent(idx, Container.makeFromString(db.getString()));
+					success = true;
+					controller.validateCircuit();
 				}
 				
 				e.setDropCompleted(success);
@@ -214,8 +225,7 @@ public abstract class Container extends Pane{
 	
 	protected void showComponentControls() {
 		sliderBox.getChildren().clear();
-		sliderBox.getChildren().add(rotationButtonBox);
-		sliderBox.getChildren().add(deleteButton);
+		sliderBox.getChildren().add(controlButtonBox);
 		
 		/*Label componentID = new Label();
 		componentID.setText("This: " + this.toString());
@@ -229,7 +239,7 @@ public abstract class Container extends Pane{
 		sliderBox.getChildren().add(outputLabel);*/
 	}
 	
-	private HBox makeRotationButtons() {
+	private HBox makeControlButtons() {
 		Button clockwiseButton = new Button();
 		clockwiseButton.setText("\u21B7");
 		clockwiseButton.setFont(new Font(18));
@@ -238,6 +248,8 @@ public abstract class Container extends Pane{
 				turnImageClockwise();
 			}
 		});
+		
+		setupDeleteButton();
 
 		Button antiClockwiseButton = new Button();
 		antiClockwiseButton.setText("\u21B6");
@@ -248,10 +260,12 @@ public abstract class Container extends Pane{
 			}
 		});
 		
-		HBox rotationButtons = new HBox();
-		rotationButtons.getChildren().add(antiClockwiseButton);
-		rotationButtons.getChildren().add(clockwiseButton);
-		return rotationButtons;
+		HBox controlButtons = new HBox();
+		controlButtons.getChildren().add(antiClockwiseButton);
+		controlButtons.getChildren().add(deleteButton);
+		controlButtons.getChildren().add(clockwiseButton);
+		controlButtons.setPadding(new Insets(5,0,0,32));
+		return controlButtons;
 	}
 	
 	public Container getOutputRecipient() {return outputRecipient;}
@@ -263,8 +277,8 @@ public abstract class Container extends Pane{
 		result += " " + outputDir;
 		result += " " + inputDir;
 		result += getSpecificData();
+		result += " " + controller.getIndexOfComponent(this);
 		
-		System.out.println(result);
 		return result;
 	}
 

@@ -57,7 +57,7 @@ public class Battery extends Container {
 	@Override
 	protected void showComponentControls() {
 		super.showComponentControls();
-		sliderBox.getChildren().get(1).setDisable(true);
+		deleteButton.setDisable(true);
 		
 		sliderBox.getChildren().add(slider);
 		Label voltageLabel = new Label();

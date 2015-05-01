@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -19,6 +20,12 @@
                         <VBox>
                            <children>
                               <TilePane fx:id="circuitGrid" prefHeight="448.0" prefWidth="640.0" />
+                              <Separator prefWidth="200.0" />
+                              <Label fx:id="circuitStatus" text="Status:">
+                                 <VBox.margin>
+                                    <Insets left="15.0" />
+                                 </VBox.margin>
+                              </Label>
                               <Separator />
                               <HBox fx:id="circuitComponentDock" prefHeight="64.0">
                                  <children>
@@ -28,7 +35,7 @@
                            </children>
                         </VBox>
                         <Separator orientation="VERTICAL" />
-                        <VBox fx:id="sliderBox" prefWidth="150.0" />
+                        <VBox fx:id="sliderBox" prefWidth="200.0" />
                      </children>
                   </HBox>
                </children></AnchorPane>
