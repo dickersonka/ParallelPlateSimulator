@@ -1,11 +1,9 @@
 package gui;
 
-public class EmptySpace extends Container {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5211823242481439468L;
 
+public class EmptySpace extends Container {
+	public final String CONTAINER_TYPE = "EMP";
+	
 	public EmptySpace() {
 		setImage("/img/empty_tile.png");
 	}
@@ -23,6 +21,21 @@ public class EmptySpace extends Container {
 	@Override
 	protected boolean canBeDroppedOn() {
 		return true;
+	}
+	
+	@Override
+	protected boolean canBeDragged() {
+		return false;
+	}
+
+	@Override
+	protected String getComponentType() {
+		return CONTAINER_TYPE;
+	}
+	
+	@Override
+	protected String getSpecificData() {
+		return "";
 	}
 	
 	@Override

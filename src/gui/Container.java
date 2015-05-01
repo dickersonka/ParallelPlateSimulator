@@ -1,15 +1,9 @@
 package gui;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -23,14 +17,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public abstract class Container extends Pane implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1431027753233575127L;
-	
+public abstract class Container extends Pane{
 	public final static int STANDARD_SQUARE_TILE_DIMENSIONS = 64;
 	public final static DataFormat CONTAINER_FORMAT = new DataFormat("CONTAINER");
+	public final static String CONTAINER_TYPE = "CON";
 	
 	protected final static ImageView CANNOT_DROP_HIGHLIGHT = new ImageView(new Image("/img/cannot_drop_highlight.png"));
 	protected final static ImageView CAN_DROP_HIGHLIGHT = new ImageView(new Image("/img/can_drop_highlight.png"));
@@ -47,12 +37,8 @@ public abstract class Container extends Pane implements Serializable{
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
 		this.getChildren().add(img);
-	}
-	
-	public Container(Controller controller) {
-		this();
-
-		this.controller = controller;
+		
+		controller = ControllerPointer.getController();
 		sliderBox = controller.getSliderBox();
 		rotationButtonBox = makeRotationButtons();
 		
@@ -63,14 +49,18 @@ public abstract class Container extends Pane implements Serializable{
 		outputDir = Direction.NORTH;
 		updateOutput();
 		inputDir = Direction.SOUTH;
-		Container input = this.controller.getComponentInDir(this, inputDir);
-		if(input != null)
-			input.updateOutput();
-		this.controller.validateCircuit();
+		updateInput();
+		controller.validateCircuit();
 	}
 	
 	protected void updateOutput() {
 		outputRecipient = controller.getComponentInDir(this, outputDir);
+	}
+	
+	protected void updateInput() {
+		Container input = controller.getComponentInDir(this, inputDir);
+		if(input != null)
+			input.updateOutput();
 	}
 
 	protected void setupOnMousePressed() {
@@ -96,10 +86,14 @@ public abstract class Container extends Pane implements Serializable{
 	protected void setupDragDrop() {
 		this.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
-				Dragboard db = Container.this.startDragAndDrop(TransferMode.MOVE);
-				ClipboardContent c = new ClipboardContent();
-				c.put(CONTAINER_FORMAT, Container.this);
-				db.setContent(c);
+				if(Container.this.canBeDragged()) {
+					Dragboard db = Container.this.startDragAndDrop(TransferMode.MOVE);
+					ClipboardContent c = new ClipboardContent();
+					c.putString(Container.this.toString());
+					db.setContent(c);
+					//	Next line needed if the dragged component doesn't get removed.
+					Container.this.controller.removeComponent(Container.this);
+				}
 				
 				e.consume();
 			}
@@ -108,7 +102,7 @@ public abstract class Container extends Pane implements Serializable{
 		this.setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				if(e.getGestureSource() != Container.this &&
-						e.getDragboard().hasContent(CONTAINER_FORMAT)) {
+						e.getDragboard().hasString()) {
 					e.acceptTransferModes(TransferMode.MOVE);
 				}
 				
@@ -119,7 +113,7 @@ public abstract class Container extends Pane implements Serializable{
 		this.setOnDragEntered(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				if(e.getGestureSource() != Container.this &&
-						e.getDragboard().hasContent(CONTAINER_FORMAT)) {
+						e.getDragboard().hasString()) {
 					Container.this.highlight();
 				}
 				
@@ -140,8 +134,9 @@ public abstract class Container extends Pane implements Serializable{
 				boolean success = false;
 				Dragboard db = e.getDragboard();
 				if(Container.this.canBeDroppedOn() &&
-						db.hasContent(CONTAINER_FORMAT)) {
-					controller.replaceComponent(Container.this, (Container)db.getContent(CONTAINER_FORMAT));
+						db.hasString()) {
+					controller.replaceComponent(Container.this, Container.makeFromString(db.getString()));
+					success = true;
 					controller.validateCircuit();
 				}
 				
@@ -151,9 +146,25 @@ public abstract class Container extends Pane implements Serializable{
 		});
 	}
 	
+	protected static Container makeFromString(String s) throws IllegalArgumentException {
+		String type = s.substring(0, 3);
+		
+		if(type.equals("CAP"))
+			return new Capacitor(s.substring(3, s.length()));
+		else if(type.equals("BAT"))
+			return new Battery(s.substring(3, s.length()));
+		else if(type.equals("WIR"))
+			return new Wire(s.substring(3, s.length()));
+		else
+			throw new IllegalArgumentException();
+	}
+
 	protected abstract void highlight();
 	protected abstract void dehighlight();
 	protected abstract boolean canBeDroppedOn();
+	protected abstract boolean canBeDragged();
+	protected abstract String getComponentType();
+	protected abstract String getSpecificData();
 
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
@@ -165,9 +176,7 @@ public abstract class Container extends Pane implements Serializable{
 		outputDir = outputDir.getClockwiseDir();
 		updateOutput();
 		inputDir = inputDir.getClockwiseDir();
-		Container input = controller.getComponentInDir(this, inputDir);
-		if(input != null)
-			input.updateOutput();
+		updateInput();
 		controller.validateCircuit();
 	}
 	
@@ -177,10 +186,22 @@ public abstract class Container extends Pane implements Serializable{
 		outputDir = outputDir.getAntiClockwiseDir();
 		updateOutput();
 		inputDir = inputDir.getAntiClockwiseDir();
-		Container input = controller.getComponentInDir(this, inputDir);
-		if(input != null)
-			input.updateOutput();
+		updateInput();
 		controller.validateCircuit();
+	}
+	
+	protected void alignImageToInput() {
+		switch(inputDir) {
+		case NORTH:
+			getImage().setRotate(getImage().getRotate() + 180.0);
+			break;
+		case EAST:
+			getImage().setRotate(getImage().getRotate() - 90.0);
+			break;
+		case WEST:
+			getImage().setRotate(getImage().getRotate() + 90.0);
+			break;
+		}
 	}
 	
 	protected void giveInput(CircuitData c) {
@@ -233,36 +254,19 @@ public abstract class Container extends Pane implements Serializable{
 		return rotationButtons;
 	}
 	
-	private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {
-		in.defaultReadObject();
-	}
-	
-	private void writeObject(ObjectOutputStream out) throws IOException {
-		out.defaultWriteObject();
-	}
-	
-	/*
-	 * 		Getters for serialization
-	 */
-	public Controller getController() {return controller;}
-	public VBox getSliderBox() {return sliderBox;}
-	public HBox getRotationButtonBox() {return rotationButtonBox;}
-	public Button getDeleteButton() {return deleteButton;}
-	public ImageView getImg() {return img;}
-	public Direction getOutputDir() {return outputDir;}
-	public Direction getInputDir() {return inputDir;}
 	public Container getOutputRecipient() {return outputRecipient;}
 	
-	/*
-	 * 		Setters for serialization
-	 */
-	public void setSliderBox(VBox sliderBox) {this.sliderBox = sliderBox;}
-	public void setRotationButtonBox(HBox rotationButtonBox) {this.rotationButtonBox = rotationButtonBox;}
-	public void setDeleteButton(Button deleteButton) {this.deleteButton = deleteButton;}
-	public void setImg(ImageView img) {this.img = img;}
-	public void setOutputDir(Direction outputDir) {this.outputDir = outputDir;}
-	public void setInputDir(Direction inputDir) {this.inputDir = inputDir;}
-	public void setOutputRecipient(Container outputRecipient) {this.outputRecipient = outputRecipient;}
+	public String toString() {
+		String result = "";
+		
+		result += getComponentType();
+		result += " " + outputDir;
+		result += " " + inputDir;
+		result += getSpecificData();
+		
+		System.out.println(result);
+		return result;
+	}
 
 	public enum Direction {
 		NORTH {
@@ -309,5 +313,19 @@ public abstract class Container extends Pane implements Serializable{
 		
 		public abstract Direction getClockwiseDir();
 		public abstract Direction getAntiClockwiseDir();
+		
+		public static Direction fromString(String s) throws IllegalArgumentException{
+			s = s.toUpperCase();
+			if(s.equals("NORTH"))
+				return NORTH;
+			else if(s.equals("EAST"))
+				return EAST;
+			else if(s.equals("SOUTH"))
+				return SOUTH;
+			else if(s.equals("WEST"))
+				return WEST;
+			else
+				throw new IllegalArgumentException();
+		}
 	}
 }

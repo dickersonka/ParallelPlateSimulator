@@ -1,5 +1,9 @@
 package gui;
 
+import gui.Container.Direction;
+
+import java.util.Scanner;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,24 +11,20 @@ import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
 public class Wire extends Container {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3664693571606615772L;
-	
 	public final static String STRAIGHT_WIRE_IMG = "/img/straight_wire.png";
 	public final static String CORNER_WIRE_IMG = "/img/corner_wire.png";
 	public final static String T_SECTION_WIRE_IMG = "/img/t_section_wire.png";
+	public final String CONTAINER_TYPE = "WIR";
 	
 	private WireType type;
 	private ComboBox<WireType> typeChooser = new ComboBox<WireType>();
 
-	public Wire(Controller controller) {
-		this(controller, WireType.STRAIGHT);
+	public Wire() {
+		this(WireType.STRAIGHT);
 	}
 	
-	public Wire(Controller controller, WireType type) {
-		super(controller);
+	public Wire(WireType type) {
+		super();
 		setType(type);
 		
 		ObservableList<WireType> wireTypeList = FXCollections.observableArrayList(WireType.values());
@@ -36,6 +36,22 @@ public class Wire extends Container {
 		});
 		typeChooser.getSelectionModel().select(type);
 		
+	}
+	
+	public Wire(String s) {
+		this();
+		
+		Scanner reader = new Scanner(s);
+		outputDir = Direction.fromString(reader.next());
+		inputDir = Direction.fromString(reader.next());
+		setType(WireType.fromString(reader.next()));
+		
+		alignImageToInput();
+		updateOutput();
+		updateInput();
+		controller.validateCircuit();
+		
+		reader.close();
 	}
 	
 	public void setType(WireType type) {
@@ -58,19 +74,6 @@ public class Wire extends Container {
 			updateOutput();
 		}
 	}
-	
-	public String getTypeAsString() {
-		if (type == WireType.STRAIGHT) {
-			return "Straight wire";
-		}
-		else if (type == WireType.CORNER) {
-			return "Corner wire";
-		}
-		else if (type == WireType.T_SECTION) {
-			return "T-section wire";
-		}
-		throw new IllegalArgumentException("Invalid wiretype");
-	}
 
 	@Override
 	protected void showComponentControls() {
@@ -92,7 +95,22 @@ public class Wire extends Container {
 	protected boolean canBeDroppedOn() {
 		return false;
 	}
+	
+	@Override
+	protected boolean canBeDragged() {
+		return true;
+	}
 
+	@Override
+	protected String getComponentType() {
+		return CONTAINER_TYPE;
+	}
+	
+	@Override
+	protected String getSpecificData() {
+		return " " + type.toString();
+	}
+	
 	public enum WireType {
 		STRAIGHT {
 			@Override
@@ -112,5 +130,18 @@ public class Wire extends Container {
 		};
 		
 		public abstract String toString();
+		
+		public static WireType fromString(String s) throws IllegalArgumentException {
+			s = s.toUpperCase();
+			
+			if(s.equals("STRAIGHT"))
+				return STRAIGHT;
+			else if(s.equals("CORNER"))
+				return CORNER;
+			else if(s.equals("T-SECTION"))
+				return T_SECTION;
+			else
+				throw new IllegalArgumentException();
+		}
 	};
 }

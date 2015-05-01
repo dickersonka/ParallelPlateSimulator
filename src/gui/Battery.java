@@ -1,20 +1,21 @@
 package gui;
 
+import gui.Container.Direction;
+
+import java.util.Scanner;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 
 public class Battery extends Container {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3605414790990169908L;
+	public final String CONTAINER_TYPE = "BAT";
 	
 	private Slider slider = new Slider();
 	
-	public Battery(Controller controller) {
-		super(controller);
+	public Battery() {
+		super();
 		
 		slider.setMin(-1.5);
 		slider.setMax(1.5);
@@ -32,6 +33,22 @@ public class Battery extends Container {
 		});
 		
 		setImage("/img/battery.png");
+	}
+	
+	public Battery(String s) {
+		this();
+		
+		Scanner reader = new Scanner(s);
+		outputDir = Direction.fromString(reader.next());
+		inputDir = Direction.fromString(reader.next());
+		
+		alignImageToInput();
+		updateOutput();
+		updateInput();
+		controller.validateCircuit();
+		controller.setBattery(this);
+		
+		reader.close();
 	}
 	
 	@Override
@@ -62,5 +79,19 @@ public class Battery extends Container {
 	protected boolean canBeDroppedOn() {
 		return false;
 	}
+	
+	@Override
+	protected boolean canBeDragged() {
+		return true;
+	}
 
+	@Override
+	protected String getComponentType() {
+		return CONTAINER_TYPE;
+	}
+	
+	@Override
+	protected String getSpecificData() {
+		return "";
+	}
 }

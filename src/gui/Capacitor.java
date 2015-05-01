@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -11,11 +12,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
 
 public class Capacitor extends Container {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2654188130969981857L;
+	public final static int AREA_RATIO = 6;
+	public final static int DISTANCE_RATIO = 600;
+	public final String CONTAINER_TYPE = "CAP";
 	
 	private Slider areaSlider = new Slider();
 	private Slider separationSlider = new Slider();
@@ -25,15 +24,28 @@ public class Capacitor extends Container {
 	private Line bottomWire = new Line();
 	private double voltage = 0;
 	private ArrayList<Group> fieldLines = new ArrayList<Group>();
-	public final int areaRatio = 6;
-	public final int distanceRatio = 600;
 
-	public Capacitor(Controller controller) {
-		super(controller);
+	public Capacitor() {
+		super();
 		
 		setupSliders();
 		setImage("/img/background.png");
 		initializeCapacitorImage();
+	}
+	
+	public Capacitor(String s) {
+		this();
+		
+		Scanner reader = new Scanner(s);
+		outputDir = Direction.fromString(reader.next());
+		inputDir = Direction.fromString(reader.next());
+		
+		alignImageToInput();
+		updateOutput();
+		updateInput();
+		controller.validateCircuit();
+		
+		reader.close();
 	}
 	
 	public void setupSliders() {
@@ -62,9 +74,9 @@ public class Capacitor extends Container {
 	}
 	
 	public void changeCapacitor(double area, double separationDistance) {
-		double length = areaRatio*Math.sqrt(area);
+		double length = AREA_RATIO*Math.sqrt(area);
 		double areaOffset = (64-length)/2;
-		double distance = distanceRatio*separationDistance;
+		double distance = DISTANCE_RATIO*separationDistance;
 		double distanceOffset = (64-distance)/2;
 		topPlate = new Line(areaOffset, distanceOffset, length+areaOffset, distanceOffset);
 		bottomPlate = new Line(areaOffset, distanceOffset+distance, length+areaOffset, distanceOffset+distance);
@@ -100,7 +112,7 @@ public class Capacitor extends Container {
 				//electric field line density increases as voltage increases, flips as voltage is switched;
 		//so let's say we have a max density of 15 lines per 30 pixels of area?
 		double lines = Math.abs(Math.sqrt(areaSlider.getValue())/30*voltage/separationSlider.getValue());	
-		double spacing = areaRatio*Math.sqrt(areaSlider.getValue())/((int) lines);
+		double spacing = AREA_RATIO*Math.sqrt(areaSlider.getValue())/((int) lines);
 		double xStart = topPlate.getStartX() + spacing/2;
 		for (int i = 0; i < (int) lines; i++) {
 			fieldLines.add(new Arrow(xStart, yStart, xStart, yEnd).getArrow());
@@ -154,5 +166,19 @@ public class Capacitor extends Container {
 	protected boolean canBeDroppedOn() {
 		return false;
 	}
+	
+	@Override
+	protected boolean canBeDragged() {
+		return true;
+	}
 
+	@Override
+	protected String getComponentType() {
+		return CONTAINER_TYPE;
+	}
+	
+	@Override
+	protected String getSpecificData() {
+		return "";
+	}
 }

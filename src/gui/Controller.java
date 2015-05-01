@@ -42,7 +42,7 @@ public class Controller {
 
 	@FXML
 	public void initialize() {
-		
+		ControllerPointer.setController(this);
 		sliderBox.setSpacing(20);
 		for(int i=0; i<NUM_TILE_COLS * NUM_TILE_ROWS; i++) {
 			circuitGrid.getChildren().add(new EmptySpace());
@@ -53,24 +53,24 @@ public class Controller {
 	}
 	
 	private void addBasicCircuit() {
-		battery = new Battery(this);
+		battery = new Battery();
 		setTile(2,1, battery);
-		capacitor = new Capacitor(this);
+		capacitor = new Capacitor();
 		setTile(2,3, capacitor);
 		getTile(2,3).turnImageClockwise();
 		getTile(2,3).turnImageClockwise();
 		
-		setTile(1,1, new Wire(this, WireType.CORNER));
-		setTile(1,2, new Wire(this));
+		setTile(1,1, new Wire(WireType.CORNER));
+		setTile(1,2, new Wire());
 		getTile(1,2).turnImageClockwise();
-		setTile(1,3, new Wire(this, WireType.CORNER));
+		setTile(1,3, new Wire(WireType.CORNER));
 		getTile(1,3).turnImageClockwise();
 		
-		setTile(3,1, new Wire(this, WireType.CORNER));
+		setTile(3,1, new Wire(WireType.CORNER));
 		getTile(3,1).turnImageAntiClockwise();
-		setTile(3,2, new Wire(this));
+		setTile(3,2, new Wire());
 		getTile(3,2).turnImageAntiClockwise();
-		setTile(3,3, new Wire(this, WireType.CORNER));
+		setTile(3,3, new Wire(WireType.CORNER));
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		
@@ -115,6 +115,10 @@ public class Controller {
 	
 	public Capacitor getCapacitor() {
 		return capacitor;
+	}
+	
+	public void setBattery(Battery b) {
+		battery = b;
 	}
 	
 	private void circuitComponents() {
