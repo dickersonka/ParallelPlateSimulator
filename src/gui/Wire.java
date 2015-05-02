@@ -107,7 +107,7 @@ public class Wire extends Container {
 	}
 	
 	@Override
-	protected String getSpecificData() {
+	protected String getTypeSpecificData() {
 		return " " + type.toString();
 	}
 	

@@ -175,7 +175,7 @@ public abstract class Container extends Pane{
 	protected abstract boolean canBeDroppedOn();
 	protected abstract boolean canBeDragged();
 	protected abstract String getComponentType();
-	protected abstract String getSpecificData();
+	protected abstract String getTypeSpecificData();
 
 	public void setImage(String imageName) {
 		img.setImage(new Image(imageName));
@@ -276,7 +276,7 @@ public abstract class Container extends Pane{
 		result += getComponentType();
 		result += " " + outputDir;
 		result += " " + inputDir;
-		result += getSpecificData();
+		result += getTypeSpecificData();
 		result += " " + controller.getIndexOfComponent(this);
 		
 		return result;

@@ -91,7 +91,7 @@ public class Battery extends Container {
 	}
 	
 	@Override
-	protected String getSpecificData() {
+	protected String getTypeSpecificData() {
 		return "";
 	}
 }
