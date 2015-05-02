@@ -1,6 +1,7 @@
 package Tests;
 
 import static org.junit.Assert.*;
+import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -12,67 +13,68 @@ public class CalculatorTest {
 	Controller c = new Controller();
 	Calculation cal = new Calculation();
 	
-	@Test
-	public void testMissingtwo(){
+	@Test(expected = IllegalAccessException.class)
+	public void testMissingtwo() throws IllegalAccessException {
 		int missingtwo = 1;
 		double area = 0; 
 		double capacitance = 4; 
 		double k = 2;
 		double distance = 8.854;
-		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance).equals("need more information"));
+		cal.calculate(missingtwo, area, capacitance, k, distance);
+		
 	}
 	
-	@Test
-	public void testFourValueAlreadyEnter(){
+	@Test(expected = IllegalAccessException.class)
+	public void testFourValueAlreadyEnter() throws IllegalAccessException{
 		int missingtwo = 0;
 		double area = 2; 
 		double capacitance = 4; 
 		double k = 2;
 		double distance = 8.854;
-		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance).equals("You already put 4 values in there"));
+		cal.calculate(missingtwo, area, capacitance, k, distance);
 	}
 	
 	@Test
-	public void testCalArea(){
+	public void testCalArea() throws IllegalAccessException {
 		int missingtwo = 0;
 		double area = 0; 
 		double capacitance = 4; 
 		double k = 2;
 		double distance = 8.854;
-		String answer = "2.0";
-		assertTrue(answer.equals(cal.calculate(missingtwo, area, capacitance, k, distance)));
+		double answer = 2.0;
+		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
 	
 	@Test
-	public void testCalCapacitance(){
+	public void testCalCapacitance() throws IllegalAccessException{
 		int missingtwo = 0;
 		double area = 4; 
 		double capacitance = 0; 
 		double k = 2;
 		double distance = 8.854;
-		String answer = "8.0";
-		assertTrue(answer.equals(cal.calculate(missingtwo, area, capacitance, k, distance)));
+		double answer = 8.0;
+		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
 	
 	@Test
-	public void testCalK(){
+	public void testCalK() throws IllegalAccessException{
 		int missingtwo = 0;
 		double area = 4; 
 		double capacitance = 4; 
 		double k = 0;
 		double distance = 8.854;
-		String answer = "1.0";
-		assertTrue(answer.equals(cal.calculate(missingtwo, area, capacitance, k, distance)));
+		double answer = 1.0;
+		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
 	
 	@Test
-	public void testCalDistance(){
+	public void testCalDistance() throws IllegalAccessException{
 		int missingtwo = 0;
 		double area = 2; 
 		double capacitance = 4; 
 		double k = 2;
 		double distance = 0;
-		String answer = "8.854";
-		assertTrue(answer.equals(cal.calculate(missingtwo, area, capacitance, k, distance)));
+		double answer = 8.854;
+		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
 }
