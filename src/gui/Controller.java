@@ -277,7 +277,7 @@ public class Controller {
 	Calculation c = new Calculation();
 	
 	@FXML
-	private void runCalculator(){
+	private void runCalculator() throws IllegalAccessException{
 		try{
 		if(!isAreaEmpty() && !resultArea.isDisable()){
 			area = Double.parseDouble(resultArea.getText());
@@ -380,15 +380,9 @@ public class Controller {
 		Capacity.setTextFill(Color.BLACK);
 		Distance.setTextFill(Color.BLUE);
 	}
-	
+
 	private void getResult(){
-		if(getValue().equals("need more information")){
-			questions.setText(getValue()); 
-		}
-		else if(getValue().equals("You already put 4 values in there")){
-			questions.setText(getValue());
-		}
-		else{
+		try{
 			if(resultArea.isDisable()){
 				resultArea.setText(getValue());
 			}
@@ -402,12 +396,16 @@ public class Controller {
 				resultDistance.setText(getValue());
 			}
 			questions.setText("Enter Three Values");
+			morethantwomissing = 0;
 		}
-		morethantwomissing = 0;
+		catch(IllegalAccessException e){
+			questions.setText("need more information");
+			morethantwomissing = 0;
+		}
 	}
 	
-	private String getValue(){
-		return c.calculate(morethantwomissing, area, capacitance, k, distance);
+	private String getValue() throws IllegalAccessException{
+		return Double.toString(c.calculate(morethantwomissing, area, capacitance, k, distance));
 	}
 	
 	private boolean isAreaEmpty(){

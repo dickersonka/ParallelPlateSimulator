@@ -42,7 +42,7 @@ public class Controller {
 	}
 	
 	@FXML
-	private void runCalculator(){
+	private void runCalculator() throws IllegalAccessException{
 		try{
 		if(!isAreaEmpty() && !resultArea.isDisable()){
 			area = Double.parseDouble(resultArea.getText());
@@ -146,7 +146,7 @@ public class Controller {
 		Distance.setTextFill(Color.BLUE);
 	}
 	
-	private void getResult(){
+	private void getResult() throws IllegalAccessException{
 		if(getValue().equals("need more information")){
 			questions.setText(getValue()); 
 		}
@@ -171,8 +171,8 @@ public class Controller {
 		morethantwomissing = 0;
 	}
 	
-	private String getValue(){
-		return c.calculate(morethantwomissing, area, capacitance, k, distance);
+	private String getValue() throws IllegalAccessException{
+		return Double.toString(c.calculate(morethantwomissing, area, capacitance, k, distance));
 	}
 	
 	private boolean isAreaEmpty(){
