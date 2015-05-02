@@ -1,8 +1,6 @@
 package Tests;
 
 import static org.junit.Assert.*;
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 import calculator.Calculation;
