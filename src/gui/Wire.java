@@ -35,7 +35,6 @@ public class Wire extends Container {
 			}
 		});
 		typeChooser.getSelectionModel().select(type);
-		
 	}
 	
 	public Wire(String s) {
@@ -51,6 +50,7 @@ public class Wire extends Container {
 		updateInput();
 		controller.validateCircuit();
 		
+		showComponentControls();
 		reader.close();
 	}
 	

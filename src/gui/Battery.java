@@ -48,6 +48,7 @@ public class Battery extends Container {
 		controller.validateCircuit();
 		controller.setBattery(this);
 		
+		showComponentControls();
 		reader.close();
 	}
 	

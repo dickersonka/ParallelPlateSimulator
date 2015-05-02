@@ -46,6 +46,7 @@ public class Capacitor extends Container {
 		updateInput();
 		controller.validateCircuit();
 		
+		showComponentControls();
 		reader.close();
 	}
 	
