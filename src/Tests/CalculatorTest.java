@@ -1,6 +1,7 @@
 package Tests;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import calculator.Calculation;
@@ -38,7 +39,7 @@ public class CalculatorTest {
 		double area = 0; 
 		double capacitance = 4; 
 		double k = 2;
-		double distance = 8.854;
+		double distance = 8.854*Math.pow(10, -12);
 		double answer = 2.0;
 		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
@@ -49,7 +50,7 @@ public class CalculatorTest {
 		double area = 4; 
 		double capacitance = 0; 
 		double k = 2;
-		double distance = 8.854;
+		double distance = 8.854*Math.pow(10, -12);
 		double answer = 8.0;
 		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
@@ -60,7 +61,7 @@ public class CalculatorTest {
 		double area = 4; 
 		double capacitance = 4; 
 		double k = 0;
-		double distance = 8.854;
+		double distance = 8.854*Math.pow(10, -12);
 		double answer = 1.0;
 		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
@@ -72,7 +73,7 @@ public class CalculatorTest {
 		double capacitance = 4; 
 		double k = 2;
 		double distance = 0;
-		double answer = 8.854;
+		double answer = 8.854*Math.pow(10, -12);
 		assertTrue(cal.calculate(missingtwo, area, capacitance, k, distance) == answer);
 	}
 }
