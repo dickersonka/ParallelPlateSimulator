@@ -1,6 +1,6 @@
 package gui;
 
-import gui.Container.Direction;
+import gui.Link.LinkType;
 import gui.Wire.WireType;
 import calculator.Calculation;
 import javafx.fxml.FXML;
@@ -171,11 +171,11 @@ public class Controller {
 		sliderBox.getChildren().clear();
 	}
 
-	public Container getComponentInDir(Container center, Direction outputDir) {
+	public Container getComponentInDir(Container center, Direction dir) {
 		try {
 			int idx = circuitGrid.getChildren().indexOf(center);
 			Container result;
-			switch(outputDir) {
+			switch(dir) {
 			case NORTH:
 				result = getTile(toRow(idx)-1, toCol(idx));
 				if(result.getClass() == EmptySpace.class)
@@ -216,8 +216,12 @@ public class Controller {
 		return circuitGrid.getChildren().indexOf(c);
 	}
 	
+	public void triggerCircuitTraversal() {
+		battery.triggerCircuitTraversal();
+	}
+	
 	public void validateCircuit() {
-		circuitIsValid = validateComponent(battery);
+		circuitIsValid = validateComponent(battery, false);
 		
 		if(circuitIsValid) {
 			circuitStatus.setText("Status: OK");
@@ -228,25 +232,37 @@ public class Controller {
 		}
 	}
 	
-	public void triggerCircuitTraversal() {
-		battery.triggerCircuitTraversal();
-	}
-	
-	private boolean validateComponent(Container c) {
+	private boolean validateComponent(Container c, boolean validity) {
 		if(c == null) {
 			return false;
 		}
 		
 		c.updateOutput();
-		
-		if(c.getOutputRecipient() == null ||
-				c == c.getOutputRecipient().getOutputRecipient()) {
-			return false;
-		} else if(c.getOutputRecipient() == battery) {
-			return true;
-		} else {
-			return validateComponent(c.getOutputRecipient());
+		if(c.getClass() == Wire.class && ((Wire) c).getType().isTSection()) {
+			Link l = ((Wire) c).getExtraLink();
+			
+			if(l.getType() == LinkType.OUT) {
+				validity = validity || validateLink(l,validity);
+			}
 		}
+		
+		Link l = c.getOutLink();
+		return validity || validateLink(l,validity);
+	}
+	
+	private boolean validateLink(Link l, boolean validity) {
+		if(l.getLinked() != null)
+			l.getLinked().updateInput();
+		
+		if(!l.linkUpIsValid()) {
+			validity = false;
+		} else if(l.getLinked() == battery) {
+			validity = true;
+		} else {
+			validity = validateComponent(l.getLinked(), validity);
+		}
+		
+		return validity;
 	}
 
 	public boolean isValidCircuit() {

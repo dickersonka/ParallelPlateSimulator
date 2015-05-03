@@ -39,8 +39,8 @@ public class Capacitor extends Container {
 		this();
 		
 		Scanner reader = new Scanner(s);
-		outputDir = Direction.fromString(reader.next());
-		inputDir = Direction.fromString(reader.next());
+		outLink.setDirection(Direction.fromString(reader.next()));
+		inLink.setDirection(Direction.fromString(reader.next()));
 		
 		alignImageToInput();
 		updateOutput();
@@ -160,7 +160,7 @@ public class Capacitor extends Container {
 		c.addToSeries(this);
 		//TODO: this should not immediately change the field lines. it should wait until it comes back through the list.
 		//changeFieldLines(c.getVoltage());
-		outputRecipient.giveInput(c);
+		outLink.getLinked().giveInput(c);
 	}
 
 	@Override

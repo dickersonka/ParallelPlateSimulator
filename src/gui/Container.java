@@ -1,5 +1,6 @@
 package gui;
 
+import gui.Link.LinkType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,8 +33,9 @@ public abstract class Container extends Pane{
 	protected Button deleteButton;
 	protected ImageView img = new ImageView();
 	
-	protected Direction outputDir, inputDir;
-	protected Container outputRecipient;
+	protected Link outLink, inLink;
+	//protected Direction outputDir, inputDir;
+	//protected Container outputRecipient;
 	
 	public Container() {
 		this.setPrefSize(STANDARD_SQUARE_TILE_DIMENSIONS, STANDARD_SQUARE_TILE_DIMENSIONS);
@@ -46,21 +48,22 @@ public abstract class Container extends Pane{
 		setupOnMousePressed();
 		setupDragDrop();
 		
-		outputDir = Direction.NORTH;
+		outLink = new Link(LinkType.OUT, Direction.NORTH);
+		inLink = new Link(LinkType.IN, Direction.SOUTH);
+		
+		/*outputDir = Direction.NORTH;
 		updateOutput();
 		inputDir = Direction.SOUTH;
-		updateInput();
+		updateInput();*/
 		controller.validateCircuit();
 	}
 	
 	protected void updateOutput() {
-		outputRecipient = controller.getComponentInDir(this, outputDir);
+		outLink.connectFrom(this);
 	}
 	
 	protected void updateInput() {
-		Container input = controller.getComponentInDir(this, inputDir);
-		if(input != null)
-			input.updateOutput();
+		inLink.connectFrom(this);
 	}
 
 	protected void setupOnMousePressed() {
@@ -184,9 +187,9 @@ public abstract class Container extends Pane{
 	public void turnImageClockwise() {
 		getImage().setRotate(getImage().getRotate() + 90.0);
 		
-		outputDir = outputDir.getClockwiseDir();
+		outLink.turnClockwise();
 		updateOutput();
-		inputDir = inputDir.getClockwiseDir();
+		inLink.turnClockwise();
 		updateInput();
 		controller.validateCircuit();
 	}
@@ -194,15 +197,16 @@ public abstract class Container extends Pane{
 	public void turnImageAntiClockwise() {
 		getImage().setRotate(getImage().getRotate() - 90.0);
 		
-		outputDir = outputDir.getAntiClockwiseDir();
+		outLink.turnAntiClockwise();
 		updateOutput();
-		inputDir = inputDir.getAntiClockwiseDir();
+		inLink.turnAntiClockwise();
 		updateInput();
 		controller.validateCircuit();
 	}
 	
+	@SuppressWarnings("incomplete-switch")
 	protected void alignImageToInput() {
-		switch(inputDir) {
+		switch(inLink.getDirection()) {
 		case NORTH:
 			getImage().setRotate(getImage().getRotate() + 180.0);
 			break;
@@ -216,7 +220,7 @@ public abstract class Container extends Pane{
 	}
 	
 	protected void giveInput(CircuitData c) {
-		outputRecipient.giveInput(c);
+		outLink.getLinked().giveInput(c);
 	}
 	
 	protected Node getImage() {
@@ -226,17 +230,6 @@ public abstract class Container extends Pane{
 	protected void showComponentControls() {
 		sliderBox.getChildren().clear();
 		sliderBox.getChildren().add(controlButtonBox);
-		
-		/*Label componentID = new Label();
-		componentID.setText("This: " + this.toString());
-		sliderBox.getChildren().add(componentID);
-		
-		Label outputLabel = new Label();
-		if(outputRecipient != null)
-			outputLabel.setText("Next: " + outputRecipient.toString());
-		else
-			outputLabel.setText("NULL");
-		sliderBox.getChildren().add(outputLabel);*/
 	}
 	
 	private HBox makeControlButtons() {
@@ -268,78 +261,25 @@ public abstract class Container extends Pane{
 		return controlButtons;
 	}
 	
-	public Container getOutputRecipient() {return outputRecipient;}
+	public Link getOutLink() {return outLink;}
+	public Link getLinkInDir(Direction d) {
+		if(outLink.getDirection() == d)
+			return outLink;
+		else if(inLink.getDirection() == d) 
+			return inLink;
+		else
+			return null;
+	}
 	
 	public String toString() {
 		String result = "";
 		
 		result += getComponentType();
-		result += " " + outputDir;
-		result += " " + inputDir;
+		result += " " + outLink.getDirection();
+		result += " " + inLink.getDirection();
 		result += getTypeSpecificData();
 		result += " " + controller.getIndexOfComponent(this);
 		
 		return result;
-	}
-
-	public enum Direction {
-		NORTH {
-			@Override
-			public Direction getClockwiseDir() {
-				return EAST;
-			}
-
-			@Override
-			public Direction getAntiClockwiseDir() {
-				return WEST;
-			}
-		}, EAST {
-			@Override
-			public Direction getClockwiseDir() {
-				return SOUTH;
-			}
-
-			@Override
-			public Direction getAntiClockwiseDir() {
-				return NORTH;
-			}
-		}, SOUTH {
-			@Override
-			public Direction getClockwiseDir() {
-				return WEST;
-			}
-
-			@Override
-			public Direction getAntiClockwiseDir() {
-				return EAST;
-			}
-		}, WEST {
-			@Override
-			public Direction getClockwiseDir() {
-				return NORTH;
-			}
-
-			@Override
-			public Direction getAntiClockwiseDir() {
-				return SOUTH;
-			}
-		};
-		
-		public abstract Direction getClockwiseDir();
-		public abstract Direction getAntiClockwiseDir();
-		
-		public static Direction fromString(String s) throws IllegalArgumentException{
-			s = s.toUpperCase();
-			if(s.equals("NORTH"))
-				return NORTH;
-			else if(s.equals("EAST"))
-				return EAST;
-			else if(s.equals("SOUTH"))
-				return SOUTH;
-			else if(s.equals("WEST"))
-				return WEST;
-			else
-				throw new IllegalArgumentException();
-		}
 	}
 }

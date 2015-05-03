@@ -32,7 +32,7 @@ public class Battery extends Container {
 		if(Battery.this.controller.isValidCircuit()) {
 			CircuitData cd = new CircuitData();
 			cd.setVoltage(Battery.this.slider.getValue());
-			Battery.this.outputRecipient.giveInput(cd);
+			Battery.this.outLink.getLinked().giveInput(cd);
 		}
 	}
 	
@@ -44,8 +44,8 @@ public class Battery extends Container {
 		this();
 		
 		Scanner reader = new Scanner(s);
-		outputDir = Direction.fromString(reader.next());
-		inputDir = Direction.fromString(reader.next());
+		outLink.setDirection(Direction.fromString(reader.next()));
+		inLink.setDirection(Direction.fromString(reader.next()));
 		
 		alignImageToInput();
 		updateOutput();
