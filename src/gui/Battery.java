@@ -60,7 +60,7 @@ public class Battery extends Container {
 	@Override
 	public void giveInput(CircuitData c) {
 		double cEq = c.getCEquivalent();
-		c.setVoltages(cEq, controller.getTotalVoltage());
+		c.setVoltages(cEq);
 	}
 	
 	@Override
