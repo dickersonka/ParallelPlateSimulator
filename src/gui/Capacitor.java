@@ -160,7 +160,7 @@ public class Capacitor extends Container {
 		c.addToSeries(this);
 		//TODO: this should not immediately change the field lines. it should wait until it comes back through the list.
 		//changeFieldLines(c.getVoltage());
-		if (outLink != null) {
+		if (outLink.getLinked() != null) {
 			outLink.getLinked().giveInput(c);
 		}
 	}
