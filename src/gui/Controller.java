@@ -38,8 +38,6 @@ public class Controller {
 	Label circuitStatus;
 	@FXML
 	VBox sliderBox;
-	@FXML 
-	ImageView straightWire;
 	
 	private Capacitor capacitor;
 	private Battery battery;
@@ -57,7 +55,6 @@ public class Controller {
 		
 		addBasicCircuit();
 		setupComponentDock();
-		//circuitComponents();
 	}
 	
 	private void addBasicCircuit() {
@@ -88,7 +85,6 @@ public class Controller {
 	private void setupComponentDock() {
 		ObservableList<Node> componentList = circuitComponentDock.getChildren();
 		
-		componentList.clear();
 		componentList.add(new Capacitor());
 		componentList.add(new Wire());
 		componentList.add(new Wire(WireType.CORNER));
@@ -142,45 +138,6 @@ public class Controller {
 	
 	public double getTotalVoltage() {
 		return battery.getTotalVoltage();
-	}
-	
-	private void circuitComponents() {
-		Image wire =  new Image(Wire.STRAIGHT_WIRE_IMG);
-		straightWire.setImage(wire);
-	}
-	
-	@FXML
-	private void dragDetected(MouseEvent t){
-		straightWire.setOpacity(0.5);
-		straightWire.toFront();
-		straightWire.setMouseTransparent(true);
-		straightWire.setVisible(true);
-		straightWire.relocate(
-                (int) (t.getSceneX() - straightWire.getBoundsInLocal().getWidth() / 2),
-                (int) (t.getSceneY() - straightWire.getBoundsInLocal().getHeight() / 2));
-		
-		Dragboard db = circuitGrid.startDragAndDrop(TransferMode.ANY);
-        ClipboardContent content = new ClipboardContent();
-
-        content.putString(Wire.STRAIGHT_WIRE_IMG);
-        db.setContent(content);
-        
-		t.consume();
-	}
-	
-	@FXML
-	private void dragOver(DragEvent e){
-		Point2D localPoint = circuitGrid.getScene().getRoot().sceneToLocal(new Point2D(e.getSceneX(), e.getSceneY()));
-		straightWire.relocate(
-				(int) (localPoint.getX() - straightWire.getBoundsInLocal().getWidth() / 2),
-				(int) (localPoint.getY() - straightWire.getBoundsInLocal().getHeight() / 2));
-			e.consume();
-	}
-	
-	@FXML
-	private void dragDone(DragEvent e){
-		straightWire.setVisible(false);
-		e.consume();
 	}
 	
 	public void removeComponent(Container container) {
