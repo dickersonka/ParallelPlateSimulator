@@ -65,17 +65,17 @@ public class Controller {
 		getTile(2,3).turnImageClockwise();
 		getTile(2,3).turnImageClockwise();
 		
-		setTile(1,1, new Wire(WireType.CORNER));
+		setTile(1,1, new Wire(WireType.CORNER_RIGHT));
 		setTile(1,2, new Wire());
 		getTile(1,2).turnImageClockwise();
-		setTile(1,3, new Wire(WireType.CORNER));
+		setTile(1,3, new Wire(WireType.CORNER_RIGHT));
 		getTile(1,3).turnImageClockwise();
 		
-		setTile(3,1, new Wire(WireType.CORNER));
+		setTile(3,1, new Wire(WireType.CORNER_RIGHT));
 		getTile(3,1).turnImageAntiClockwise();
 		setTile(3,2, new Wire());
 		getTile(3,2).turnImageAntiClockwise();
-		setTile(3,3, new Wire(WireType.CORNER));
+		setTile(3,3, new Wire(WireType.CORNER_RIGHT));
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		
@@ -87,9 +87,12 @@ public class Controller {
 		
 		componentList.add(new Capacitor());
 		componentList.add(new Wire());
-		componentList.add(new Wire(WireType.CORNER));
-		componentList.add(new Wire(WireType.T_SECTION_IN));
-		componentList.add(new Wire(WireType.T_SECTION_OUT));
+		componentList.add(new Wire(WireType.CORNER_LEFT));
+		componentList.add(new Wire(WireType.T_SECTION_OUT_LEFT));
+		componentList.add(new Wire(WireType.T_SECTION_IN_LEFT));
+		componentList.add(new Wire(WireType.CORNER_RIGHT));
+		componentList.add(new Wire(WireType.T_SECTION_OUT_RIGHT));
+		componentList.add(new Wire(WireType.T_SECTION_IN_RIGHT));
 	}
 	
 	private Container getTile(int row, int col) {
