@@ -35,8 +35,8 @@ public class CircuitData {
 		}
 	}
 	
-	public void setVoltages(Double cEq, Double totalVoltage) {
-		double charge = cEq*totalVoltage;
+	public void setVoltages(Double cEq) {
+		double charge = cEq*voltage;
 		for (Capacitor capacitor: capacitorsInSeries) {
 			capacitor.changeFieldLines(charge/capacitor.getCapacity());
 		}

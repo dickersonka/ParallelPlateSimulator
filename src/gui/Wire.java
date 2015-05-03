@@ -141,10 +141,20 @@ public class Wire extends Container {
 	public void giveInput(CircuitData c) {
 		if (type == WireType.T_SECTION_OUT) {
 			double cEq = c.getCEquivalent();
-			c.setVoltages(cEq, controller.getTotalVoltage());
+			c.setVoltages(cEq);
+			
+			outLink.getLinked().giveInput(c.getClone());
+			extraLink.getLinked().giveInput(c.getClone());
+			
 			//TODO: how I handle this depends on the input and output of the wire! Right now it's not actually implemented
 			//if the current is flowing into one input and out of the two inputs, then it needs to go down one, then the other.
 			//it also needs to pass on a clone of circuit data instead of c (outputRecipient.giveInput(c.clone())) for each.
+		}
+		else if(type == WireType.T_SECTION_IN) {
+			double cEq = c.getCEquivalent();
+			c.setVoltages(cEq);
+			//TODO: nothing further actually needs to be done here since this is limited to parallel with series/series
+			
 		}
 		else {
 			outLink.getLinked().giveInput(c);
