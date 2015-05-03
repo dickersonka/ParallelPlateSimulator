@@ -128,69 +128,35 @@ public class Controller {
 	}
 	
 	private void circuitComponents() {
-		Image wire =  new Image(Wire.STRAIGHT_WIRE_IMG);
-		straightWire.setImage(wire);
+		circuitComponentDock.getChildren().add(new Wire(WireType.T_SECTION_IN));
+		circuitComponentDock.getChildren().add(new Wire(WireType.CORNER));
 		circuitComponentDock.getChildren().add(new Wire());
-		circuitComponentDock.getChildren().add(new capacitor);
+		circuitComponentDock.getChildren().add(new Capacitor());
+		circuitComponentDock.getChildren().add(new Wire(WireType.T_SECTION_OUT));
 	}
 	
 
 	
 	@FXML
 	public void dragDetected(MouseEvent t){
-		straightWire.setOpacity(0.5);
-		straightWire.toFront();
-		straightWire.setMouseTransparent(true);
-		straightWire.setVisible(true);
-		straightWire.relocate(
-                (int) (t.getSceneX() - straightWire.getBoundsInLocal().getWidth() / 2),
-                (int) (t.getSceneY() - straightWire.getBoundsInLocal().getHeight() / 2));
 		
-		Dragboard db = circuitGrid.startDragAndDrop(TransferMode.ANY);
-        ClipboardContent content = new ClipboardContent();
-
-        content.putString(Wire.STRAIGHT_WIRE_IMG);
-        db.setContent(content);
-        
-		t.consume();
 	}
 	
 	@FXML
 	private void dragOver(DragEvent e){
-		boolean success = false;
-		Dragboard db = e.getDragboard();
-		if(Container.canBeDroppedOn() &&
-				db.hasString()) {
-			replaceComponent(Container.this, Container.makeFromString(db.getString()));
-			success = true;
-			validateCircuit();
-		} else {
-			String content = db.getString();
-			
-			int i;
-			for(i=0; i<content.length() && !Character.isDigit(content.charAt(i)); i++) {}
-			content = content.substring(i, content.length());
-			
-			int idx = Integer.parseInt(content);
-			replaceComponent(idx, Container.makeFromString(db.getString()));
-			success = true;
-			validateCircuit();
-		}
-		
-		e.setDropCompleted(success);
-		e.consume();
+
 	}
 	
 	@FXML
 	private void dragDone(DragEvent e){
-		straightWire.setVisible(false);
-		straightWire.toFront();
-		e.consume();
+		
 	}
 	
 	public void removeComponent(Container container) {
+		if(circuitGrid.getChildren().indexOf(container) > -1){
 		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
 		sliderBox.getChildren().clear();
+		}
 	}
 
 	public Container getComponentInDir(Container center, Direction dir) {
