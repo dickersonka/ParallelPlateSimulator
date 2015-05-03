@@ -3,10 +3,15 @@ package gui;
 import gui.Link.LinkType;
 import gui.Wire.WireType;
 import calculator.Calculation;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,6 +56,7 @@ public class Controller {
 		}
 		
 		addBasicCircuit();
+		setupComponentDock();
 		//circuitComponents();
 	}
 	
@@ -77,6 +83,17 @@ public class Controller {
 		getTile(3,3).turnImageClockwise();
 		
 		validateCircuit();
+	}
+	
+	private void setupComponentDock() {
+		ObservableList<Node> componentList = circuitComponentDock.getChildren();
+		
+		componentList.clear();
+		componentList.add(new Capacitor());
+		componentList.add(new Wire());
+		componentList.add(new Wire(WireType.CORNER));
+		componentList.add(new Wire(WireType.T_SECTION_IN));
+		componentList.add(new Wire(WireType.T_SECTION_OUT));
 	}
 	
 	private Container getTile(int row, int col) {
@@ -167,8 +184,12 @@ public class Controller {
 	}
 	
 	public void removeComponent(Container container) {
-		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
-		sliderBox.getChildren().clear();
+		int idx = circuitGrid.getChildren().indexOf(container);
+		
+		if(idx > -1) {
+			circuitGrid.getChildren().set(idx, new EmptySpace());
+			sliderBox.getChildren().clear();
+		}
 	}
 
 	public Container getComponentInDir(Container center, Direction dir) {
