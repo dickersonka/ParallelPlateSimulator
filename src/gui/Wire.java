@@ -164,13 +164,13 @@ public class Wire extends Container {
 		if (type == WireType.T_SECTION_OUT_RIGHT) {
 			double cEq = c.getCEquivalent();
 			c.setVoltages(cEq);
-			if (extraLink.getLinked() != null) {
-				extraLink.getLinked().giveInput(c.getClone());
+			if (outLink.getLinked() != null) {
+				outLink.getLinked().giveInput(c.getClone());
 			}
 			System.out.println("here");
-			if (outLink.getLinked() != null) {
+			if (extraLink.getLinked() != null) {
 				System.out.println("in here");
-				outLink.getLinked().giveInput(c.getClone());
+				extraLink.getLinked().giveInput(c.getClone());
 			}
 			
 			//TODO: how I handle this depends on the input and output of the wire! Right now it's not actually implemented

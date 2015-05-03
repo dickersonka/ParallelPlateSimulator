@@ -141,8 +141,8 @@ public class Capacitor extends Container {
 	protected void showComponentControls() {
 		super.showComponentControls();
 		HBox controlBox = (HBox)sliderBox.getChildren().get(0);
-		controlBox.getChildren().get(0).setDisable(true);
-		controlBox.getChildren().get(2).setDisable(true);
+		//controlBox.getChildren().get(0).setDisable(true);
+		//controlBox.getChildren().get(2).setDisable(true);
 		
 		sliderBox.getChildren().add(areaSlider);
 		Label areaLabel = new Label();
@@ -160,7 +160,7 @@ public class Capacitor extends Container {
 		c.addToSeries(this);
 		//TODO: this should not immediately change the field lines. it should wait until it comes back through the list.
 		//changeFieldLines(c.getVoltage());
-		if (outLink != null) {
+		if (outLink != null && outLink.getLinked() != null) {
 			outLink.getLinked().giveInput(c);
 		}
 	}
