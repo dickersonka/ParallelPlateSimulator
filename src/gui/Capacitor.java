@@ -2,14 +2,12 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
@@ -76,6 +74,36 @@ public class Capacitor extends Container {
 				changeCapacitor(areaSlider.getValue(), separationSlider.getValue());
 			}
 		});
+	}
+	
+	@Override
+	public void turnImageClockwise() {
+		for(Node n: this.getChildren()) {
+			n.setRotate(n.getRotate() + 180.0);
+		}
+		
+		outLink.turnClockwise();
+		outLink.turnClockwise();
+		updateOutput();
+		inLink.turnClockwise();
+		inLink.turnClockwise();
+		updateInput();
+		controller.validateCircuit();
+	}
+	
+	@Override
+	public void turnImageAntiClockwise() {
+		for(Node n: this.getChildren()) {
+			n.setRotate(n.getRotate() - 180.0);
+		}
+		
+		outLink.turnAntiClockwise();
+		outLink.turnAntiClockwise();
+		updateOutput();
+		inLink.turnAntiClockwise();
+		inLink.turnAntiClockwise();
+		updateInput();
+		controller.validateCircuit();
 	}
 	
 	public void changeCapacitor(double area, double separationDistance) {
@@ -145,10 +173,6 @@ public class Capacitor extends Container {
 	@Override
 	protected void showComponentControls() {
 		super.showComponentControls();
-		HBox controlBox = (HBox)sliderBox.getChildren().get(0);
-		//controlBox.getChildren().get(0).setDisable(true);
-		//controlBox.getChildren().get(2).setDisable(true);
-		
 		sliderBox.getChildren().add(areaSlider);
 		Label areaLabel = new Label();
 		areaLabel.setText("Plate Area");

@@ -49,9 +49,7 @@ public class Controller {
 	private void addBasicCircuit() {
 		battery = new Battery();
 		setTile(2,1, battery);
-		capacitor = new Capacitor();
-		setTile(2,3, capacitor);
-		getTile(2,3).turnImageClockwise();
+		setTile(2,3, new Capacitor());
 		getTile(2,3).turnImageClockwise();
 		
 		setTile(1,1, new Wire(WireType.CORNER_RIGHT));
