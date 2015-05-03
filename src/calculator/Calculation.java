@@ -5,7 +5,7 @@ public class Calculation {
 		
 	}
 	
-	private double e0 = 8.854;
+	private double e0 = 8.854*Math.pow(10, -12);
 	public double calculate(int missingtwo, double area, double capacitance, double k, double distance) throws IllegalAccessException{
 		if(missingtwo >= 1){
 			throw new IllegalAccessException("need more information"); 

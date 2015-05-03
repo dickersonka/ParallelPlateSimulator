@@ -25,6 +25,7 @@ public class Capacitor extends Container {
 	private Line bottomWire = new Line();
 	private double voltage = 0;
 	private ArrayList<Group> fieldLines = new ArrayList<Group>();
+	private double e0 = 8.854*Math.pow(10, -12);
 
 	public Capacitor() {
 		super();
@@ -92,7 +93,7 @@ public class Capacitor extends Container {
 		this.getChildren().set(2, bottomPlate);
 		this.getChildren().set(3, topWire);
 		this.getChildren().set(4, bottomWire);
-		changeFieldLines(voltage);
+		controller.triggerCircuitTraversal();
 	}
 	
 	public void changeFieldLines(double batteryVoltage) {
@@ -132,6 +133,10 @@ public class Capacitor extends Container {
 	
 	}
 	
+	public double getCapacity() {
+		return e0*areaSlider.getValue()/separationSlider.getValue();
+	}
+	
 	@Override
 	protected void showComponentControls() {
 		super.showComponentControls();
@@ -152,7 +157,9 @@ public class Capacitor extends Container {
 	
 	@Override
 	public void giveInput(CircuitData c) {
-		changeFieldLines(c.getVoltage());
+		c.addToSeries(this);
+		//TODO: this should not immediately change the field lines. it should wait until it comes back through the list.
+		//changeFieldLines(c.getVoltage());
 		outputRecipient.giveInput(c);
 	}
 

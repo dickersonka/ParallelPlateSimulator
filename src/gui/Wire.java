@@ -1,9 +1,6 @@
 package gui;
 
-import gui.Container.Direction;
-
 import java.util.Scanner;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -72,6 +69,20 @@ public class Wire extends Container {
 			setImage(T_SECTION_WIRE_IMG);
 			outputDir = inputDir.getClockwiseDir().getClockwiseDir();
 			updateOutput();
+		}
+	}
+	
+	@Override
+	public void giveInput(CircuitData c) {
+		if (type == WireType.T_SECTION) {
+			double cEq = c.getCEquivalent();
+			c.setVoltages(cEq, controller.getTotalVoltage());
+			//TODO: how I handle this depends on the input and output of the wire! Right now it's not actually implemented
+			//if the current is flowing into one input and out of the two inputs, then it needs to go down one, then the other.
+			//it also needs to pass on a clone of circuit data instead of c (outputRecipient.giveInput(c.clone())) for each.
+		}
+		else {
+			outputRecipient.giveInput(c);
 		}
 	}
 

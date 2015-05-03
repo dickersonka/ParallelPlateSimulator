@@ -1,9 +1,6 @@
 package gui;
 
-import gui.Container.Direction;
-
 import java.util.Scanner;
-
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -24,15 +21,23 @@ public class Battery extends Container {
 		
 		slider.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent arg0) {
-				if(Battery.this.controller.isValidCircuit()) {
-					CircuitData cd = new CircuitData();
-					cd.setVoltage(Battery.this.slider.getValue());
-					Battery.this.outputRecipient.giveInput(cd);
-				}
+				triggerCircuitTraversal();
 			}
 		});
 		
 		setImage("/img/battery.png");
+	}
+	
+	public void triggerCircuitTraversal() {
+		if(Battery.this.controller.isValidCircuit()) {
+			CircuitData cd = new CircuitData();
+			cd.setVoltage(Battery.this.slider.getValue());
+			Battery.this.outputRecipient.giveInput(cd);
+		}
+	}
+	
+	public Double getTotalVoltage() {
+		return slider.getValue();
 	}
 	
 	public Battery(String s) {
@@ -53,7 +58,10 @@ public class Battery extends Container {
 	}
 	
 	@Override
-	public void giveInput(CircuitData c) {}
+	public void giveInput(CircuitData c) {
+		double cEq = c.getCEquivalent();
+		c.setVoltages(cEq, controller.getTotalVoltage());
+	}
 	
 	@Override
 	protected void showComponentControls() {

@@ -123,6 +123,10 @@ public class Controller {
 		battery = b;
 	}
 	
+	public double getTotalVoltage() {
+		return battery.getTotalVoltage();
+	}
+	
 	private void circuitComponents() {
 		Image wire =  new Image(Wire.STRAIGHT_WIRE_IMG);
 		straightWire.setImage(wire);
@@ -215,10 +219,17 @@ public class Controller {
 	public void validateCircuit() {
 		circuitIsValid = validateComponent(battery);
 		
-		if(circuitIsValid)
+		if(circuitIsValid) {
 			circuitStatus.setText("Status: OK");
-		else
+			battery.triggerCircuitTraversal();
+		}
+		else {
 			circuitStatus.setText("Status: Invalid Wiring");
+		}
+	}
+	
+	public void triggerCircuitTraversal() {
+		battery.triggerCircuitTraversal();
 	}
 	
 	private boolean validateComponent(Container c) {
@@ -266,8 +277,6 @@ public class Controller {
 	Label questions;
 	
 	
-	private double e0 = 8.854;
-	private String e = " x 10^(-12) F / m";
 	private double area;
 	private double capacitance;
 	private double distance;
