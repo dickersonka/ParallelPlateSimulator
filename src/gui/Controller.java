@@ -250,6 +250,8 @@ public class Controller {
 	@FXML
 	Button Distance;
 	@FXML
+	Button Clear;
+	@FXML
 	TextField resultArea;
 	@FXML
 	TextField resultK;
@@ -372,6 +374,24 @@ public class Controller {
 		K.setTextFill(Color.BLACK);
 		Capacity.setTextFill(Color.BLACK);
 		Distance.setTextFill(Color.BLUE);
+	}
+	
+	@FXML
+	private void clearAndRestore(){
+		resultArea.setDisable(false);
+		resultK.setDisable(false);
+		resultCapacity.setDisable(false);
+		resultDistance.setDisable(false);
+		
+		Area.setTextFill(Color.BLACK);
+		K.setTextFill(Color.BLACK);
+		Capacity.setTextFill(Color.BLACK);
+		Distance.setTextFill(Color.BLACK);
+		
+		resultArea.clear();
+		resultK.clear();
+		resultCapacity.clear();
+		resultDistance.clear();
 	}
 
 	private void getResult(){
