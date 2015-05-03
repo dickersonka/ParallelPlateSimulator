@@ -3,18 +3,12 @@ package gui;
 import gui.Link.LinkType;
 import gui.Wire.WireType;
 import calculator.Calculation;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -33,8 +27,6 @@ public class Controller {
 	Label circuitStatus;
 	@FXML
 	VBox sliderBox;
-	@FXML 
-	ImageView straightWire;
 	
 	private Capacitor capacitor;
 	private Battery battery;
@@ -51,7 +43,7 @@ public class Controller {
 		}
 		
 		addBasicCircuit();
-		circuitComponents();
+		setupComponentDock();
 	}
 	
 	private void addBasicCircuit() {
@@ -62,21 +54,34 @@ public class Controller {
 		getTile(2,3).turnImageClockwise();
 		getTile(2,3).turnImageClockwise();
 		
-		setTile(1,1, new Wire(WireType.CORNER));
+		setTile(1,1, new Wire(WireType.CORNER_RIGHT));
 		setTile(1,2, new Wire());
 		getTile(1,2).turnImageClockwise();
-		setTile(1,3, new Wire(WireType.CORNER));
+		setTile(1,3, new Wire(WireType.CORNER_RIGHT));
 		getTile(1,3).turnImageClockwise();
 		
-		setTile(3,1, new Wire(WireType.CORNER));
+		setTile(3,1, new Wire(WireType.CORNER_RIGHT));
 		getTile(3,1).turnImageAntiClockwise();
 		setTile(3,2, new Wire());
 		getTile(3,2).turnImageAntiClockwise();
-		setTile(3,3, new Wire(WireType.CORNER));
+		setTile(3,3, new Wire(WireType.CORNER_RIGHT));
 		getTile(3,3).turnImageClockwise();
 		getTile(3,3).turnImageClockwise();
 		
 		validateCircuit();
+	}
+	
+	private void setupComponentDock() {
+		ObservableList<Node> componentList = circuitComponentDock.getChildren();
+		
+		componentList.add(new Capacitor());
+		componentList.add(new Wire());
+		componentList.add(new Wire(WireType.CORNER_LEFT));
+		componentList.add(new Wire(WireType.T_SECTION_OUT_LEFT));
+		componentList.add(new Wire(WireType.T_SECTION_IN_LEFT));
+		componentList.add(new Wire(WireType.CORNER_RIGHT));
+		componentList.add(new Wire(WireType.T_SECTION_OUT_RIGHT));
+		componentList.add(new Wire(WireType.T_SECTION_IN_RIGHT));
 	}
 	
 	private Container getTile(int row, int col) {
@@ -127,35 +132,12 @@ public class Controller {
 		return battery.getTotalVoltage();
 	}
 	
-	private void circuitComponents() {
-		circuitComponentDock.getChildren().add(new Wire(WireType.T_SECTION_IN));
-		circuitComponentDock.getChildren().add(new Wire(WireType.CORNER));
-		circuitComponentDock.getChildren().add(new Wire());
-		circuitComponentDock.getChildren().add(new Capacitor());
-		circuitComponentDock.getChildren().add(new Wire(WireType.T_SECTION_OUT));
-	}
-	
-
-	
-	@FXML
-	public void dragDetected(MouseEvent t){
-		
-	}
-	
-	@FXML
-	private void dragOver(DragEvent e){
-
-	}
-	
-	@FXML
-	private void dragDone(DragEvent e){
-		
-	}
-	
 	public void removeComponent(Container container) {
-		if(circuitGrid.getChildren().indexOf(container) > -1){
-		circuitGrid.getChildren().set(circuitGrid.getChildren().indexOf(container), new EmptySpace());
-		sliderBox.getChildren().clear();
+		int idx = circuitGrid.getChildren().indexOf(container);
+		
+		if(idx > -1) {
+			circuitGrid.getChildren().set(idx, new EmptySpace());
+			sliderBox.getChildren().clear();
 		}
 	}
 
