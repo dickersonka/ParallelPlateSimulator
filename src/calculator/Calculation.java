@@ -29,4 +29,12 @@ public class Calculation {
 		
 	}
 	
+	public double getNumLines(double area, double separation, double voltage) {
+		return Math.abs(Math.sqrt(area)/30*voltage/separation);
+	}
+	
+	public double getSpacing(double ratio, double area, double lines) {
+		return ratio*Math.sqrt(area)/((int) lines);
+	}
+	
 }

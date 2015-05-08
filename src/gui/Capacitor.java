@@ -2,6 +2,8 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import calculator.Calculation;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
@@ -9,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 
 public class Capacitor extends Container {
@@ -26,6 +27,7 @@ public class Capacitor extends Container {
 	private double voltage = 0;
 	private ArrayList<Group> fieldLines = new ArrayList<Group>();
 	private double e0 = 8.854*Math.pow(10, -12);
+	private Calculation calculation = new Calculation();
 
 	public Capacitor() {
 		super();
@@ -144,15 +146,15 @@ public class Capacitor extends Container {
 				//electric field line density stays the same as area changes
 				//electric field line density increases as voltage increases, flips as voltage is switched;
 		//so let's say we have a max density of 15 lines per 30 pixels of area?
-		double lines = Math.abs(Math.sqrt(areaSlider.getValue())/30*voltage/separationSlider.getValue());	
-		double spacing = AREA_RATIO*Math.sqrt(areaSlider.getValue())/((int) lines);
+		double lines = calculation.getNumLines(areaSlider.getValue(), separationSlider.getValue(), voltage);
+		double spacing = calculation.getSpacing(AREA_RATIO, areaSlider.getValue(), lines);
 		double xStart = topPlate.getStartX() + spacing/2;
 		for (int i = 0; i < (int) lines; i++) {
 			fieldLines.add(new Arrow(xStart, yStart, xStart, yEnd).getArrow());
 			xStart += spacing;
 		}
 		this.getChildren().addAll(fieldLines);
-	}
+	} 
 	
 	private void initializeCapacitorImage() {
 		this.getChildren().add(topPlate);
